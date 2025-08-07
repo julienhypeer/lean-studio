@@ -1,4 +1,5 @@
 import { 
+  Home,
   LayoutDashboard, 
   BarChart3, 
   MessageSquare, 
@@ -10,6 +11,7 @@ import {
   ChevronDown
 } from 'lucide-react';
 import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface SidebarProps {
   currentBusiness: string;
@@ -20,15 +22,18 @@ interface SidebarProps {
 export default function Sidebar({ currentBusiness, onBusinessChange, businesses }: SidebarProps) {
   const [isBusinessDropdownOpen, setIsBusinessDropdownOpen] = useState(false);
   const currentBusinessData = businesses.find(b => b.id === currentBusiness);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const menuItems = [
-    { icon: LayoutDashboard, label: 'Dashboard', active: true },
-    { icon: BarChart3, label: 'Analytics', active: false },
-    { icon: TrendingUp, label: 'Métriques', active: false },
-    { icon: Briefcase, label: 'Produits', active: false },
-    { icon: MessageSquare, label: 'Messages', active: false },
-    { icon: Calendar, label: 'Timeline', active: false },
-    { icon: Settings, label: 'Paramètres', active: false },
+    { icon: Home, label: 'Home', path: '/' },
+    { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
+    { icon: BarChart3, label: 'Analytics', path: '/analytics' },
+    { icon: TrendingUp, label: 'Métriques', path: '/metrics' },
+    { icon: Briefcase, label: 'Produits', path: '/products' },
+    { icon: MessageSquare, label: 'Messages', path: '/messages' },
+    { icon: Calendar, label: 'Timeline', path: '/timeline' },
+    { icon: Settings, label: 'Paramètres', path: '/settings' },
   ];
 
   return (
@@ -83,8 +88,9 @@ export default function Sidebar({ currentBusiness, onBusinessChange, businesses 
         {menuItems.map((item) => (
           <button
             key={item.label}
+            onClick={() => navigate(item.path)}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-white/80 hover:bg-white/10 hover:text-white transition-all mb-1 ${
-              item.active ? 'bg-white/20 text-white' : ''
+              location.pathname === item.path ? 'bg-white/20 text-white' : ''
             }`}
           >
             <item.icon className="w-5 h-5" />

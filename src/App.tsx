@@ -1,23 +1,33 @@
-import { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation, useSearchParams } from 'react-router-dom';
 import DashboardLayout from './layouts/DashboardLayout';
 import Dashboard from './pages/Dashboard';
+import Home from './pages/Home';
 import { mockBusinesses } from './data/mockData';
 
-function App() {
+function AppContent() {
   const [currentBusinessId, setCurrentBusinessId] = useState(mockBusinesses[0].id);
   const currentBusiness = mockBusinesses.find(b => b.id === currentBusinessId) || mockBusinesses[0];
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+
+  // Handle business query parameter from Home page navigation
+  useEffect(() => {
+    const businessParam = searchParams.get('business');
+    if (businessParam && mockBusinesses.find(b => b.id === businessParam)) {
+      setCurrentBusinessId(businessParam);
+    }
+  }, [searchParams]);
 
   return (
-    <Router>
-      <DashboardLayout 
-        currentBusiness={currentBusinessId}
-        onBusinessChange={setCurrentBusinessId}
-        businesses={mockBusinesses}
-      >
-        <Routes>
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          <Route path="/dashboard" element={<Dashboard business={currentBusiness} />} />
+    <DashboardLayout 
+      currentBusiness={currentBusinessId}
+      onBusinessChange={setCurrentBusinessId}
+      businesses={mockBusinesses}
+    >
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/dashboard" element={<Dashboard business={currentBusiness} />} />
           <Route path="/analytics" element={
             <div className="p-8">
               <h1 className="text-3xl font-bold">Analytics - En construction</h1>
@@ -50,6 +60,13 @@ function App() {
           } />
         </Routes>
       </DashboardLayout>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }
