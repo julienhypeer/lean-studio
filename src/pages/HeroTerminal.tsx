@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Terminal, Zap } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
+import { AuroraBackground } from '../components/AuroraBackground';
 import TypewriterLine from '../components/TypewriterLine';
 
 export default function HeroTerminal() {
@@ -51,90 +52,89 @@ export default function HeroTerminal() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center relative overflow-hidden">
-      {/* Background effects */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary-500/5 rounded-full blur-3xl"></div>
-      </div>
-
-      {/* Simple grid pattern */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-900/50 to-gray-900"></div>
-
-      <div className="relative z-10 max-w-5xl mx-auto px-8">
-        {/* Terminal Header */}
-        <div className="mb-8 flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <Terminal className="w-8 h-8 text-green-400" />
-            <span className="text-green-400 font-mono text-xl">lean-studio</span>
+    <AuroraBackground>
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
+        {/* Header */}
+        <div className="text-center mb-12 animate-fadeIn">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6">
+            <Sparkles className="w-4 h-4 text-blue-600" />
+            <span className="text-sm font-medium text-gray-700">Portfolio Entrepreneurial</span>
           </div>
-          <div className="flex-1 h-px bg-gradient-to-r from-green-400/50 to-transparent"></div>
-        </div>
-
-        {/* Code Editor */}
-        <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg border border-gray-700/50 shadow-2xl">
-          {/* Editor Header */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-700/50">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-red-500"></div>
-              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-              <div className="w-3 h-3 rounded-full bg-green-500"></div>
-            </div>
-            <div className="flex items-center gap-4">
-              <span className="text-gray-500 text-sm font-mono">portfolio.js</span>
-              <span className="text-gray-600 text-xs">JavaScript</span>
-            </div>
-          </div>
-
-          {/* Code Content */}
-          <div className="p-6 font-mono text-sm">
-            {codeLines.map((line, index) => (
-              <TypewriterLine
-                key={index}
-                text={line}
-                delay={index * 150}
-                onComplete={() => handleLineComplete(index)}
-                index={index}
-                currentTypingIndex={currentTypingIndex}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Terminal Output */}
-        {lineCompleted.length === codeLines.length && (
-          <div className="mt-6 bg-black/50 backdrop-blur-sm rounded-lg border border-gray-700/50 p-4 animate-fadeIn">
-            <div className="flex items-start gap-2 font-mono text-sm">
-              <span className="text-green-400">❯</span>
-              <span className="text-gray-300">Building the future, one startup at a time...</span>
-              <span className="inline-block w-2 h-4 bg-green-400 animate-blink ml-1"></span>
-            </div>
-          </div>
-        )}
-
-        {/* CTA Button */}
-        <div className={`mt-12 text-center transition-all duration-700 ${showButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-          <button
-            onClick={handleExplore}
-            className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-primary-600 to-primary-500 text-white font-semibold rounded-lg shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
-          >
-            <Zap className="w-5 h-5" />
-            <span>Explorer le Portfolio</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            
-            {/* Button glow effect */}
-            <div className="absolute inset-0 rounded-lg bg-primary-400/30 blur-xl -z-10 group-hover:bg-primary-400/40 transition-all"></div>
-          </button>
           
-          <p className="mt-4 text-gray-500 text-sm">
-            Découvrez {codeLines.filter(l => l.includes('name:')).length} projets entrepreneuriaux
+          <h1 className="text-6xl md:text-7xl font-bold text-gray-900 mb-4">
+            Lean Studio
+          </h1>
+          
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Découvrez mon parcours à travers la méthodologie Lean Startup
           </p>
         </div>
-      </div>
 
-      {/* Bottom gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-gray-900 to-transparent"></div>
-    </div>
+        {/* Code Display */}
+        <div className="relative w-full max-w-4xl mx-auto mb-12">
+          <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 overflow-hidden">
+            {/* Window Header */}
+            <div className="bg-gray-50/50 px-6 py-4 border-b border-gray-200/50 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+                <div className="w-3 h-3 rounded-full bg-green-400"></div>
+              </div>
+              <span className="text-sm text-gray-500 font-mono">portfolio.js</span>
+            </div>
+
+            {/* Code Content */}
+            <div className="p-8 font-mono text-sm md:text-base">
+              {codeLines.map((line, index) => (
+                <TypewriterLine
+                  key={index}
+                  text={line}
+                  delay={index * 100}
+                  onComplete={() => handleLineComplete(index)}
+                  index={index}
+                  currentTypingIndex={currentTypingIndex}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Output Terminal */}
+          {lineCompleted.length === codeLines.length && (
+            <div className="mt-4 bg-gray-900/90 backdrop-blur-sm text-green-400 p-4 rounded-lg font-mono text-sm animate-fadeIn">
+              <span className="text-gray-500">❯</span> Building the future, one startup at a time...
+              <span className="inline-block w-2 h-4 bg-green-400 animate-blink ml-1"></span>
+            </div>
+          )}
+        </div>
+
+        {/* CTA Button */}
+        <div className={`transition-all duration-700 ${showButton ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <button
+            onClick={handleExplore}
+            className="group inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+          >
+            <span className="text-lg">Explorer le Portfolio</span>
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </button>
+          
+          <div className="mt-6 flex items-center justify-center gap-8 text-sm text-gray-600">
+            <div className="text-center">
+              <div className="font-bold text-2xl text-gray-900">4</div>
+              <div>Startups lancées</div>
+            </div>
+            <div className="w-px h-8 bg-gray-300"></div>
+            <div className="text-center">
+              <div className="font-bold text-2xl text-gray-900">€285K</div>
+              <div>Revenue généré</div>
+            </div>
+            <div className="w-px h-8 bg-gray-300"></div>
+            <div className="text-center">
+              <div className="font-bold text-2xl text-gray-900">45K+</div>
+              <div>Utilisateurs</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </AuroraBackground>
   );
 }
