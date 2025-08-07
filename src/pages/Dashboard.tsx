@@ -1,0 +1,231 @@
+import { Business } from '../types/business';
+import MetricCard from '../components/MetricCard';
+import RevenueChart from '../components/RevenueChart';
+import ProductTable from '../components/ProductTable';
+import RecentOrders from '../components/RecentOrders';
+import { 
+  TrendingUp, 
+  Users, 
+  ShoppingBag, 
+  DollarSign,
+  Activity,
+  Target,
+  Zap,
+  Clock
+} from 'lucide-react';
+
+interface DashboardProps {
+  business: Business;
+}
+
+export default function Dashboard({ business }: DashboardProps) {
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('fr-FR', {
+      style: 'currency',
+      currency: 'EUR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(value);
+  };
+
+  const formatNumber = (value: number) => {
+    return new Intl.NumberFormat('fr-FR').format(value);
+  };
+
+  const calculateGrowth = () => {
+    const lastMonth = business.monthlyData[business.monthlyData.length - 1];
+    const previousMonth = business.monthlyData[business.monthlyData.length - 2];
+    
+    if (!lastMonth || !previousMonth) return '0%';
+    
+    const growth = ((lastMonth.revenue - previousMonth.revenue) / previousMonth.revenue) * 100;
+    return `${growth > 0 ? '+' : ''}${growth.toFixed(1)}%`;
+  };
+
+  const getStatusBadge = () => {
+    const statusConfig = {
+      active: { label: 'Actif', class: 'bg-green-100 text-green-700', icon: '🟢' },
+      pivoted: { label: 'Pivoté', class: 'bg-yellow-100 text-yellow-700', icon: '🔄' },
+      sold: { label: 'Vendu', class: 'bg-blue-100 text-blue-700', icon: '💰' },
+      closed: { label: 'Fermé', class: 'bg-red-100 text-red-700', icon: '🔴' },
+    };
+    
+    const config = statusConfig[business.status];
+    
+    return (
+      <span className={`px-3 py-1 rounded-full text-sm font-medium ${config.class} flex items-center gap-2`}>
+        <span>{config.icon}</span>
+        {config.label}
+      </span>
+    );
+  };
+
+  return (
+    <div className="p-8">
+      {/* Header */}
+      <div className="mb-8">
+        <div className="flex items-start justify-between">
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <span className="text-4xl">{business.logo}</span>
+              <div>
+                <h1 className="text-3xl font-bold text-text-primary">{business.name}</h1>
+                <p className="text-text-secondary">{business.tagline}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 mt-4">
+              {getStatusBadge()}
+              <span className="text-sm text-text-secondary">
+                {business.industry} • Lancé le {new Date(business.startDate).toLocaleDateString('fr-FR')}
+                {business.endDate && ` • Fin le ${new Date(business.endDate).toLocaleDateString('fr-FR')}`}
+              </span>
+            </div>
+          </div>
+          <button className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium">
+            Éditer Profil
+          </button>
+        </div>
+      </div>
+
+      {/* Metrics Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <MetricCard
+          title="Revenue Total"
+          value={formatCurrency(business.metrics.totalRevenue)}
+          change={calculateGrowth()}
+          changeType={parseFloat(calculateGrowth()) > 0 ? 'increase' : 'decrease'}
+          icon={DollarSign}
+          iconColor="text-green-600"
+          subtitle="Depuis le lancement"
+        />
+        
+        <MetricCard
+          title="Dépenses Totales"
+          value={formatCurrency(business.metrics.totalExpenses)}
+          change="2.4%"
+          changeType="decrease"
+          icon={TrendingUp}
+          iconColor="text-red-600"
+          subtitle="Optimisation continue"
+        />
+        
+        <MetricCard
+          title="Clients Totaux"
+          value={formatNumber(business.metrics.totalCustomers)}
+          change="7.8%"
+          changeType="increase"
+          icon={Users}
+          iconColor="text-blue-600"
+          subtitle={`CAC: ${formatCurrency(business.metrics.cac)}`}
+        />
+        
+        <MetricCard
+          title="Commandes"
+          value={formatNumber(business.metrics.totalOrders)}
+          change="12.5%"
+          changeType="increase"
+          icon={ShoppingBag}
+          iconColor="text-purple-600"
+          subtitle="Toutes catégories"
+        />
+      </div>
+
+      {/* Lean Metrics */}
+      {business.status === 'active' && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <MetricCard
+            title="MRR"
+            value={formatCurrency(business.metrics.mrr)}
+            change="15%"
+            changeType="increase"
+            icon={Activity}
+            iconColor="text-indigo-600"
+            subtitle={`ARR: ${formatCurrency(business.metrics.arr)}`}
+          />
+          
+          <MetricCard
+            title="LTV / CAC"
+            value={(business.metrics.ltv / business.metrics.cac).toFixed(1) + 'x'}
+            icon={Target}
+            iconColor="text-orange-600"
+            subtitle={`LTV: ${formatCurrency(business.metrics.ltv)}`}
+          />
+          
+          <MetricCard
+            title="Churn Rate"
+            value={business.metrics.churnRate + '%'}
+            changeType={business.metrics.churnRate < 5 ? 'increase' : 'decrease'}
+            icon={Zap}
+            iconColor="text-yellow-600"
+            subtitle="Mensuel"
+          />
+          
+          <MetricCard
+            title="Runway"
+            value={business.metrics.runway + ' mois'}
+            icon={Clock}
+            iconColor="text-teal-600"
+            subtitle={`Burn: ${formatCurrency(business.metrics.burnRate)}/mois`}
+          />
+        </div>
+      )}
+
+      {/* Charts and Tables */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div className="lg:col-span-2">
+          <RevenueChart data={business.monthlyData} />
+        </div>
+        <div className="lg:col-span-1">
+          <RecentOrders orders={business.recentOrders} />
+        </div>
+      </div>
+
+      {/* Products Table */}
+      <div className="mb-8">
+        <ProductTable products={business.products} />
+      </div>
+
+      {/* Milestones & Lessons */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="bg-white rounded-card shadow-card p-6">
+          <h3 className="text-lg font-semibold text-text-primary mb-4">Milestones Clés</h3>
+          <div className="space-y-3">
+            {business.milestones.map((milestone) => (
+              <div key={milestone.id} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                <div className={`w-2 h-2 rounded-full mt-2 ${
+                  milestone.impact === 'critical' ? 'bg-red-500' :
+                  milestone.impact === 'high' ? 'bg-orange-500' :
+                  milestone.impact === 'medium' ? 'bg-yellow-500' :
+                  'bg-gray-500'
+                }`} />
+                <div className="flex-1">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="font-medium text-text-primary">{milestone.title}</p>
+                      <p className="text-sm text-text-secondary mt-1">{milestone.description}</p>
+                    </div>
+                    <span className="text-xs text-text-secondary whitespace-nowrap ml-4">
+                      {new Date(milestone.date).toLocaleDateString('fr-FR')}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-white rounded-card shadow-card p-6">
+          <h3 className="text-lg font-semibold text-text-primary mb-4">Lessons Learned</h3>
+          <div className="space-y-3">
+            {business.lessonsLearned.map((lesson, index) => (
+              <div key={index} className="flex items-start gap-3 p-3 bg-blue-50 rounded-lg">
+                <span className="text-blue-600 font-bold">💡</span>
+                <p className="text-sm text-text-primary">{lesson}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

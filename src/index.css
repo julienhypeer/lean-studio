@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-text-primary;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-surface rounded-card shadow-card p-6;
+  }
+  
+  .metric-value {
+    @apply text-3xl font-bold text-text-primary;
+  }
+  
+  .metric-label {
+    @apply text-sm text-text-secondary mt-1;
+  }
+  
+  .sidebar-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-lg text-white/80 hover:bg-white/10 hover:text-white transition-all cursor-pointer;
+  }
+  
+  .sidebar-item-active {
+    @apply bg-white/20 text-white;
+  }
+}
