@@ -2,7 +2,7 @@ import { mockBusinesses } from '../data/mockData';
 import { TrendingUp, Users, DollarSign, Trophy, ArrowRight, Rocket, Target, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-export default function Home() {
+export default function Portfolio() {
   const navigate = useNavigate();
   
   // Calcul des stats globales

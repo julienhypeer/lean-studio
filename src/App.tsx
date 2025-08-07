@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useSearchParams } from 'react-router-dom';
 import DashboardLayout from './layouts/DashboardLayout';
 import Dashboard from './pages/Dashboard';
-import Home from './pages/Home';
+import Portfolio from './pages/Portfolio';
+import HeroTerminal from './pages/HeroTerminal';
 import { mockBusinesses } from './data/mockData';
 
 function AppContent() {
@@ -11,7 +12,7 @@ function AppContent() {
   const location = useLocation();
   const [searchParams] = useSearchParams();
 
-  // Handle business query parameter from Home page navigation
+  // Handle business query parameter from Portfolio page navigation
   useEffect(() => {
     const businessParam = searchParams.get('business');
     if (businessParam && mockBusinesses.find(b => b.id === businessParam)) {
@@ -19,6 +20,12 @@ function AppContent() {
     }
   }, [searchParams]);
 
+  // Routes without layout (full screen)
+  if (location.pathname === '/') {
+    return <HeroTerminal />;
+  }
+
+  // Routes with sidebar layout
   return (
     <DashboardLayout 
       currentBusiness={currentBusinessId}
@@ -26,7 +33,7 @@ function AppContent() {
       businesses={mockBusinesses}
     >
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/dashboard" element={<Dashboard business={currentBusiness} />} />
           <Route path="/analytics" element={
             <div className="p-8">

@@ -26,7 +26,7 @@ export default function Sidebar({ currentBusiness, onBusinessChange, businesses 
   const navigate = useNavigate();
 
   const menuItems = [
-    { icon: Home, label: 'Home', path: '/' },
+    { icon: Home, label: 'Portfolio', path: '/portfolio' },
     { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
     { icon: BarChart3, label: 'Analytics', path: '/analytics' },
     { icon: TrendingUp, label: 'Métriques', path: '/metrics' },
