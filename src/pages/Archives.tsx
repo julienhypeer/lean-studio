@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Calendar, Image, Trophy, TrendingUp, AlertCircle, CheckCircle } from 'lucide-react';
+import { AlertCircle, CheckCircle } from 'lucide-react';
 import { Business } from '../types/business';
 
 interface ArchivesProps {
