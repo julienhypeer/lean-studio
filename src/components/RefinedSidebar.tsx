@@ -94,6 +94,11 @@ export default function RefinedSidebar({ currentBusiness, onBusinessChange, busi
 
       {/* Business Selector */}
       <div className={`${isCollapsed ? 'px-3' : 'px-4'} py-3`}>
+        {!isCollapsed && (
+          <p className="text-xs text-slate-500 font-medium uppercase tracking-wider px-1 mb-2">
+            Projets
+          </p>
+        )}
         <div className="relative">
           <button
             onClick={() => setIsBusinessDropdownOpen(!isBusinessDropdownOpen)}
@@ -111,7 +116,6 @@ export default function RefinedSidebar({ currentBusiness, onBusinessChange, busi
                   <div className="text-sm font-medium text-white">
                     {currentBusinessData?.name}
                   </div>
-                  <div className="text-xs text-slate-400">Projet actif</div>
                 </div>
               )}
             </div>
@@ -166,7 +170,7 @@ export default function RefinedSidebar({ currentBusiness, onBusinessChange, busi
         <div className="mb-1">
           {!isCollapsed && (
             <p className="text-xs text-slate-500 font-medium uppercase tracking-wider px-3 mb-2">
-              Projet
+              Infos
             </p>
           )}
           {projectMenuItems.map((item) => {
