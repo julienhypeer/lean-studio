@@ -13,34 +13,36 @@ export default {
     extend: {
       colors: {
         primary: {
-          50: '#eef2ff',
-          100: '#e0e7ff',
-          200: '#c7d2fe',
-          300: '#a5b4fc',
-          400: '#818cf8',
-          500: '#6366f1',
-          600: '#5B6CFF', // Fairflow primary
-          700: '#4338ca',
-          800: '#3730a3',
-          900: '#312e81',
+          50: '#fff5f2',
+          100: '#ffe8e0',
+          200: '#ffd4c4',
+          300: '#ffb399',
+          400: '#ff8a65',
+          500: '#ff6b35', // Main orange
+          600: '#f54e15',
+          700: '#cc3d0f',
+          800: '#a33311',
+          900: '#842d12',
         },
         secondary: {
-          50: '#fff7ed',
-          100: '#ffedd5',
-          200: '#fed7aa',
-          300: '#fdba74',
-          400: '#fb923c',
-          500: '#FF8A65', // Orange from chart
-          600: '#ea580c',
-          700: '#c2410c',
-          800: '#9a3412',
-          900: '#7c2d12',
+          50: '#f7f7f7',
+          100: '#e3e3e3',
+          200: '#c8c8c8',
+          300: '#a4a4a4',
+          400: '#818181',
+          500: '#666666',
+          600: '#515151',
+          700: '#434343',
+          800: '#383838',
+          900: '#000000', // Black
         },
+        accent: '#ff6b35', // Quick access to main orange
+        dark: '#000000', // Quick access to black
         success: '#4CAF50',
-        background: '#F5F6FA',
+        background: '#FFFFFF',
         surface: '#FFFFFF',
-        'text-primary': '#2D3436',
-        'text-secondary': '#636E72',
+        'text-primary': '#000000',
+        'text-secondary': '#666666',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],

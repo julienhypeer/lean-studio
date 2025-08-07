@@ -15,29 +15,29 @@ export default function Portfolio() {
       label: 'Business Lancés', 
       value: mockBusinesses.length, 
       icon: Rocket, 
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-100'
+      color: 'text-accent',
+      bgColor: 'bg-accent/10'
     },
     { 
       label: 'Revenue Total', 
       value: `€${(totalRevenue / 1000).toFixed(0)}K`, 
       icon: DollarSign, 
-      color: 'text-green-600',
-      bgColor: 'bg-green-100'
+      color: 'text-black',
+      bgColor: 'bg-gray-100'
     },
     { 
       label: 'Utilisateurs', 
       value: `${(totalUsers / 1000).toFixed(0)}K+`, 
       icon: Users, 
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-100'
+      color: 'text-accent',
+      bgColor: 'bg-accent/10'
     },
     { 
       label: 'Valeur des Exits', 
       value: `€${(exitValue / 1000).toFixed(0)}K`, 
       icon: Trophy, 
-      color: 'text-yellow-600',
-      bgColor: 'bg-yellow-100'
+      color: 'text-black',
+      bgColor: 'bg-gray-100'
     },
   ];
 
@@ -45,7 +45,7 @@ export default function Portfolio() {
     const configs = {
       active: { label: 'Actif', class: 'bg-green-100 text-green-700', icon: '🟢' },
       pivoted: { label: 'Pivoté', class: 'bg-yellow-100 text-yellow-700', icon: '🔄' },
-      sold: { label: 'Vendu', class: 'bg-blue-100 text-blue-700', icon: '💰' },
+      sold: { label: 'Vendu', class: 'bg-accent/10 text-accent', icon: '💰' },
       closed: { label: 'Fermé', class: 'bg-red-100 text-red-700', icon: '🔴' },
     };
     
@@ -66,7 +66,7 @@ export default function Portfolio() {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-primary-600 via-primary-500 to-secondary-500 text-white">
+      <div className="relative overflow-hidden bg-gradient-to-br from-black via-gray-900 to-black text-white">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="relative px-8 py-16">
           <div className="max-w-6xl mx-auto">
@@ -89,7 +89,7 @@ export default function Portfolio() {
             <div className="flex gap-4 mt-8">
               <button 
                 onClick={() => navigate('/dashboard')}
-                className="px-6 py-3 bg-white text-primary-600 rounded-lg font-semibold hover:bg-white/90 transition-colors flex items-center gap-2"
+                className="px-6 py-3 bg-accent text-white rounded-lg font-semibold hover:bg-primary-600 transition-colors flex items-center gap-2"
               >
                 Explorer le Dashboard
                 <ArrowRight className="w-5 h-5" />
@@ -103,7 +103,7 @@ export default function Portfolio() {
 
         {/* Decorative elements */}
         <div className="absolute -top-24 -right-24 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-secondary-500/20 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-accent/20 rounded-full blur-3xl"></div>
       </div>
 
       {/* Stats Section */}
@@ -144,7 +144,7 @@ export default function Portfolio() {
                   <div className="relative z-10">
                     <div className={`w-16 h-16 rounded-full flex items-center justify-center text-2xl
                       ${business.status === 'active' ? 'bg-green-100' : 
-                        business.status === 'sold' ? 'bg-blue-100' : 
+                        business.status === 'sold' ? 'bg-accent/20' : 
                         business.status === 'pivoted' ? 'bg-yellow-100' : 'bg-red-100'}`}>
                       {business.logo}
                     </div>
@@ -194,7 +194,7 @@ export default function Portfolio() {
                       {business.status === 'sold' && (
                         <div className="col-span-2">
                           <p className="text-xs text-text-secondary">Exit Value</p>
-                          <p className="text-sm font-semibold text-green-600">€450K</p>
+                          <p className="text-sm font-semibold text-accent">€450K</p>
                         </div>
                       )}
                       {business.status === 'pivoted' && (
@@ -219,7 +219,7 @@ export default function Portfolio() {
             <h2 className="text-3xl font-bold text-text-primary">Portfolio Détaillé</h2>
             <button 
               onClick={() => navigate('/dashboard')}
-              className="text-primary-600 hover:text-primary-700 font-medium flex items-center gap-2"
+              className="text-accent hover:text-primary-600 font-medium flex items-center gap-2"
             >
               Voir tous les détails
               <ArrowRight className="w-5 h-5" />
@@ -237,7 +237,7 @@ export default function Portfolio() {
                   <div className="flex items-center gap-3">
                     <span className="text-3xl">{business.logo}</span>
                     <div>
-                      <h3 className="text-lg font-semibold text-text-primary group-hover:text-primary-600 transition-colors">
+                      <h3 className="text-lg font-semibold text-text-primary group-hover:text-accent transition-colors">
                         {business.name}
                       </h3>
                       <p className="text-sm text-text-secondary">{business.industry}</p>
@@ -295,7 +295,7 @@ export default function Portfolio() {
           </p>
           <button 
             onClick={() => navigate('/dashboard')}
-            className="px-8 py-4 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors inline-flex items-center gap-2"
+            className="px-8 py-4 bg-black text-white rounded-lg font-semibold hover:bg-gray-900 transition-colors inline-flex items-center gap-2"
           >
             Accéder au Dashboard Complet
             <ArrowRight className="w-5 h-5" />

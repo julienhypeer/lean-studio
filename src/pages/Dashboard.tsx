@@ -46,7 +46,7 @@ export default function Dashboard({ business }: DashboardProps) {
     const statusConfig = {
       active: { label: 'Actif', class: 'bg-green-100 text-green-700', icon: '🟢' },
       pivoted: { label: 'Pivoté', class: 'bg-yellow-100 text-yellow-700', icon: '🔄' },
-      sold: { label: 'Vendu', class: 'bg-blue-100 text-blue-700', icon: '💰' },
+      sold: { label: 'Vendu', class: 'bg-accent/10 text-accent', icon: '💰' },
       closed: { label: 'Fermé', class: 'bg-red-100 text-red-700', icon: '🔴' },
     };
     
@@ -81,7 +81,7 @@ export default function Dashboard({ business }: DashboardProps) {
               </span>
             </div>
           </div>
-          <button className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium">
+          <button className="px-4 py-2 bg-accent text-white rounded-lg hover:bg-primary-600 transition-colors font-medium">
             Éditer Profil
           </button>
         </div>
@@ -95,7 +95,7 @@ export default function Dashboard({ business }: DashboardProps) {
           change={calculateGrowth()}
           changeType={parseFloat(calculateGrowth()) > 0 ? 'increase' : 'decrease'}
           icon={DollarSign}
-          iconColor="text-green-600"
+          iconColor="text-accent"
           subtitle="Depuis le lancement"
         />
         
