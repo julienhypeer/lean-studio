@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import Portfolio from './pages/Portfolio';
 import HeroTerminal from './pages/HeroTerminal';
 import MomentsForts from './pages/MomentsForts';
+import Archives from './pages/Archives';
 import { mockBusinesses } from './data/mockData';
 
 function AppContent() {
@@ -36,6 +37,7 @@ function AppContent() {
       <Routes>
         <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/dashboard" element={<Dashboard business={currentBusiness} />} />
+        <Route path="/archives" element={<Archives business={currentBusiness} />} />
         <Route path="/moments-forts" element={<MomentsForts />} />
         <Route path="/journal" element={<MomentsForts />} />
       </Routes>
