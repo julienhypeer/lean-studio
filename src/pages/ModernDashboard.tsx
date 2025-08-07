@@ -1,6 +1,7 @@
 import { Business } from '../types/business';
 import ModernMetricCard from '../components/ModernMetricCard';
 import RevenueChart from '../components/RevenueChart';
+import OriginCard from '../components/OriginCard';
 import { 
   TrendingUp, 
   Users, 
@@ -24,6 +25,45 @@ export default function ModernDashboard({ business }: ModernDashboardProps) {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(value);
+  };
+
+  const getOriginStory = () => {
+    const origins = {
+      'nocodeur': {
+        problem: "Des entrepreneurs brillants bloqués par le code",
+        trigger: "Si Shopify existe, pourquoi pas pour tout ?",
+        vision: "Démocratiser la création tech",
+        location: "Paris, WeWork Opéra",
+        date: "Mars 2021",
+        moment: "Discussion avec un ami développeur"
+      },
+      'ecodeliver': {
+        problem: "30% des livraisons = trajets à vide",
+        trigger: "Mon voisin allait au même endroit que mon colis",
+        vision: "L'Uber du colis éco-responsable",
+        location: "Chez moi, Vincennes",
+        date: "Septembre 2020",
+        moment: "En voyant le livreur Amazon"
+      },
+      'fittracker-pro': {
+        problem: "Excel pour tracker ses séances = l'enfer",
+        trigger: "Mon coach utilisait encore un carnet papier en 2019",
+        vision: "Le Strava de la musculation",
+        location: "Basic-Fit, République",
+        date: "Janvier 2019",
+        moment: "3h du matin, salle vide"
+      },
+      'localchef': {
+        problem: "Uber Eats = malbouffe industrielle",
+        trigger: "Ma voisine cuisine mieux que tous les restos du coin",
+        vision: "L'Airbnb de la gastronomie",
+        location: "Palier du 3ème étage",
+        date: "Mai 2020",
+        moment: "Confinement COVID"
+      }
+    };
+    
+    return origins[business.id as keyof typeof origins] || origins['nocodeur'];
   };
 
   const formatNumber = (value: number) => {
@@ -81,6 +121,9 @@ export default function ModernDashboard({ business }: ModernDashboardProps) {
           </div>
         </div>
       </motion.div>
+
+      {/* Origin Story */}
+      <OriginCard projectName={business.name} origin={getOriginStory()} />
 
       {/* Histoire du Projet */}
       <motion.div 

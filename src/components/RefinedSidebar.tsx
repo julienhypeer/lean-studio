@@ -2,7 +2,7 @@ import {
   LayoutDashboard, 
   Archive,
   Clock,
-  Sparkles,
+  Trophy,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -48,8 +48,8 @@ export default function RefinedSidebar({ currentBusiness, onBusinessChange, busi
       path: '/portfolio'
     },
     { 
-      icon: Sparkles, 
-      label: 'Moments forts', 
+      icon: Trophy, 
+      label: 'Trophées', 
       path: '/moments-forts'
     },
   ];
