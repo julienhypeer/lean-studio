@@ -23,10 +23,9 @@ export default function Sidebar({ currentBusiness, onBusinessChange, businesses 
   const navigate = useNavigate();
 
   const menuItems = [
-    { icon: Home, label: '🏠 Portfolio', path: '/portfolio' },
+    { icon: Home, label: '⏱️ Timeline', path: '/portfolio' },
     { icon: LayoutDashboard, label: '📊 Dashboard', path: '/dashboard' },
-    { icon: MessageSquare, label: '📝 Journal', path: '/journal' },
-    { icon: Calendar, label: '🚀 Projets', path: '/projects' },
+    { icon: MessageSquare, label: '✨ Moments forts', path: '/journal' },
     { icon: Settings, label: '⚙️ Paramètres', path: '/settings' },
   ];
 
