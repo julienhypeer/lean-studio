@@ -1,5 +1,5 @@
 import { mockBusinesses } from '../data/mockData';
-import { TrendingUp, Users, DollarSign, Trophy, ArrowRight, Rocket, Target, Zap } from 'lucide-react';
+import { TrendingUp, Users, DollarSign, Trophy, ArrowRight, Rocket } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export default function Portfolio() {
@@ -8,8 +8,7 @@ export default function Portfolio() {
   // Calcul des stats globales
   const totalRevenue = mockBusinesses.reduce((acc, b) => acc + b.metrics.totalRevenue, 0);
   const totalUsers = mockBusinesses.reduce((acc, b) => acc + b.metrics.totalCustomers, 0);
-  const activeBusinesses = mockBusinesses.filter(b => b.status === 'active').length;
-  const exitValue = mockBusinesses.filter(b => b.status === 'sold').reduce((acc, b) => acc + 450000, 0); // Valeur de sortie FitTracker
+  const exitValue = mockBusinesses.filter(b => b.status === 'sold').reduce((acc) => acc + 450000, 0); // Valeur de sortie FitTracker
 
   const stats = [
     { 
@@ -139,7 +138,7 @@ export default function Portfolio() {
             
             {/* Timeline items */}
             <div className="space-y-8">
-              {mockBusinesses.map((business, index) => (
+              {mockBusinesses.map((business) => (
                 <div key={business.id} className="relative flex items-start gap-6">
                   {/* Timeline dot */}
                   <div className="relative z-10">

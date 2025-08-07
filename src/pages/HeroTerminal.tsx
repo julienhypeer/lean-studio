@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Terminal, Zap } from 'lucide-react';
-import { useTypewriter } from '../hooks/useTypewriter';
+import TypewriterLine from '../components/TypewriterLine';
 
 export default function HeroTerminal() {
   const navigate = useNavigate();
   const [showButton, setShowButton] = useState(false);
   const [lineCompleted, setLineCompleted] = useState<number[]>([]);
+  const [currentTypingIndex, setCurrentTypingIndex] = useState(0);
 
   const codeLines = [
     "const leanStudio = {",
@@ -29,18 +30,14 @@ export default function HeroTerminal() {
     "console.log('Building the future, one startup at a time...');"
   ];
 
-  // Typewriter for each line with staggered delays
-  const typedLines = codeLines.map((line, index) => {
-    const delay = index * 150; // Stagger each line by 150ms
-    const { displayText, isComplete } = useTypewriter(line, {
-      speed: 25,
-      delay: delay,
-      onComplete: () => {
-        setLineCompleted(prev => [...prev, index]);
-      }
-    });
-    return displayText;
-  });
+  // Handle line completion
+  const handleLineComplete = (index: number) => {
+    setLineCompleted(prev => [...prev, index]);
+    // Move to next line
+    if (index < codeLines.length - 1) {
+      setCurrentTypingIndex(index + 1);
+    }
+  };
 
   // Show button after all lines are typed
   useEffect(() => {
@@ -50,7 +47,6 @@ export default function HeroTerminal() {
   }, [lineCompleted.length, codeLines.length]);
 
   const handleExplore = () => {
-    // Navigate to portfolio with animation state
     navigate('/portfolio', { state: { animate: true } });
   };
 
@@ -63,8 +59,8 @@ export default function HeroTerminal() {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary-500/5 rounded-full blur-3xl"></div>
       </div>
 
-      {/* Grid pattern overlay */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" xmlns="http://www.w3.org/2000/svg"%3E%3Cdefs%3E%3Cpattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse"%3E%3Cpath d="M 60 0 L 0 0 0 60" fill="none" stroke="white" stroke-width="0.5" opacity="0.05"/%3E%3C/pattern%3E%3C/defs%3E%3Crect width="100%25" height="100%25" fill="url(%23grid)"/%3E%3C/svg%3E')] opacity-20"></div>
+      {/* Simple grid pattern */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-900/50 to-gray-900"></div>
 
       <div className="relative z-10 max-w-5xl mx-auto px-8">
         {/* Terminal Header */}
@@ -93,36 +89,15 @@ export default function HeroTerminal() {
 
           {/* Code Content */}
           <div className="p-6 font-mono text-sm">
-            {typedLines.map((line, index) => (
-              <div key={index} className="min-h-[1.5em]">
-                {line.split(/(\s+|{|}|\[|\]|,|'|:|\d+)/).map((part, partIndex) => {
-                  // Syntax highlighting
-                  let className = "text-gray-300";
-                  if (part === 'const' || part === 'console' || part === 'log') {
-                    className = "text-purple-400";
-                  } else if (part.startsWith("'") || part === "'") {
-                    className = "text-green-400";
-                  } else if (/^\d+/.test(part)) {
-                    className = "text-orange-400";
-                  } else if (part === '{' || part === '}' || part === '[' || part === ']') {
-                    className = "text-yellow-400";
-                  } else if (part === ':' || part === ',') {
-                    className = "text-gray-500";
-                  } else if (['methodology', 'philosophy', 'businesses', 'trackRecord', 'name', 'status', 'mrr', 'users', 'exit', 'learning', 'totalRevenue', 'totalUsers', 'successRate', 'exits'].includes(part)) {
-                    className = "text-blue-400";
-                  }
-                  
-                  return (
-                    <span key={partIndex} className={className}>
-                      {part}
-                    </span>
-                  );
-                })}
-                {/* Cursor */}
-                {index === lineCompleted.length && index < codeLines.length && (
-                  <span className="inline-block w-2 h-4 bg-green-400 animate-pulse ml-1"></span>
-                )}
-              </div>
+            {codeLines.map((line, index) => (
+              <TypewriterLine
+                key={index}
+                text={line}
+                delay={index * 150}
+                onComplete={() => handleLineComplete(index)}
+                index={index}
+                currentTypingIndex={currentTypingIndex}
+              />
             ))}
           </div>
         </div>
