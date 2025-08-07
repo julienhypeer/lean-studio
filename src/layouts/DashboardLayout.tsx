@@ -1,6 +1,6 @@
 import { ReactNode, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import ModernSidebar from '../components/ModernSidebar';
+import RefinedSidebar from '../components/RefinedSidebar';
 import { Business } from '../types/business';
 
 interface DashboardLayoutProps {
@@ -52,7 +52,7 @@ export default function DashboardLayout({
           showSidebar ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <ModernSidebar 
+        <RefinedSidebar 
           currentBusiness={currentBusiness}
           onBusinessChange={onBusinessChange}
           businesses={businessList}
