@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useSearchParams } from 'react-router-dom';
 import DashboardLayout from './layouts/DashboardLayout';
-import Dashboard from './pages/Dashboard';
+import ModernDashboard from './pages/ModernDashboard';
 import Portfolio from './pages/Portfolio';
 import HeroTerminal from './pages/HeroTerminal';
-import MomentsForts from './pages/MomentsForts';
-import Archives from './pages/Archives';
+import ModernMomentsForts from './pages/ModernMomentsForts';
+import ModernArchives from './pages/ModernArchives';
 import { mockBusinesses } from './data/mockData';
 
 function AppContent() {
@@ -36,10 +36,10 @@ function AppContent() {
     >
       <Routes>
         <Route path="/portfolio" element={<Portfolio />} />
-        <Route path="/dashboard" element={<Dashboard business={currentBusiness} />} />
-        <Route path="/archives" element={<Archives business={currentBusiness} />} />
-        <Route path="/moments-forts" element={<MomentsForts />} />
-        <Route path="/journal" element={<MomentsForts />} />
+        <Route path="/dashboard" element={<ModernDashboard business={currentBusiness} />} />
+        <Route path="/archives" element={<ModernArchives business={currentBusiness} />} />
+        <Route path="/moments-forts" element={<ModernMomentsForts />} />
+        <Route path="/journal" element={<ModernMomentsForts />} />
       </Routes>
       </DashboardLayout>
   );
