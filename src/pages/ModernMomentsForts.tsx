@@ -22,85 +22,173 @@ export default function ModernTrophees() {
   // Trophées NoCodeur
   const nocodeurTrophies: Trophy[] = [
     {
-      id: 'nc-first-launch',
+      id: 'nc-launch',
       project: 'NoCodeur',
       icon: '🚀',
-      title: 'First Launch',
-      description: 'Lancer son premier projet no-code',
-      detail: 'Mars 2021 - NoCodeur était né d\'une frustration personnelle',
+      title: 'Lancement',
+      description: 'Lancer NoCodeur officellement',
+      detail: 'Mars 2021 - Première plateforme française dédiée au no-code',
       rarity: 'bronze',
       category: 'Milestone',
       unlockDate: '15 mars 2021'
     },
     {
-      id: 'nc-first-client',
+      id: 'nc-paying-client',
       project: 'NoCodeur',
       icon: '💰',
-      title: 'First Euro',
-      description: 'Premier client payant',
-      detail: '25€ de Pierre L. pour un template Notion - Un moment magique',
-      rarity: 'silver',
-      category: 'Business',
+      title: 'Client payant',
+      description: 'Premier client qui paie pour nos services',
+      detail: '25€ pour un template Notion - Le premier euro gagné',
+      rarity: 'bronze',
+      category: 'Sales',
       unlockDate: '2 avril 2021'
     },
     {
-      id: 'nc-community',
+      id: 'nc-first-online-sale',
       project: 'NoCodeur',
-      icon: '👥',
-      title: 'Community Builder',
-      description: 'Atteindre 500+ membres actifs',
-      detail: 'La communauté Discord a explosé grâce au contenu de qualité',
-      rarity: 'gold',
-      category: 'Growth',
-      unlockDate: '12 octobre 2021'
+      icon: '🛒',
+      title: '1ère vente en ligne',
+      description: 'Première vente automatisée sur la plateforme',
+      detail: 'Vente d\'une formation no-code à 49€ via Stripe',
+      rarity: 'silver',
+      category: 'Sales',
+      unlockDate: '20 avril 2021'
+    },
+    {
+      id: 'nc-logo-design',
+      project: 'NoCodeur',
+      icon: '🎨',
+      title: 'Conception de logo',
+      description: 'Design du logo NoCodeur',
+      detail: 'Logo minimaliste conçu sur Figma - Identité visuelle créée',
+      rarity: 'bronze',
+      category: 'Product',
+      unlockDate: '10 mars 2021'
+    },
+    {
+      id: 'nc-mvp',
+      project: 'NoCodeur',
+      icon: '⚡',
+      title: 'Création d\'un MVP',
+      description: 'Premier MVP de la plateforme',
+      detail: 'Site web avec 5 templates et système de paiement',
+      rarity: 'silver',
+      category: 'Product',
+      unlockDate: '28 mars 2021'
     }
   ];
 
   // Trophées EcoDeliver
   const ecodeliverTrophies: Trophy[] = [
     {
-      id: 'ed-pivot',
+      id: 'ed-launch',
       project: 'EcoDeliver',
-      icon: '🔄',
-      title: 'The Pivot',
-      description: 'Pivoter au bon moment',
-      detail: 'De C2C à B2B : +300% de traction en 2 mois',
-      rarity: 'gold',
-      category: 'Strategy',
+      icon: '🚀',
+      title: 'Lancement',
+      description: 'Lancement d\'EcoDeliver',
+      detail: 'Septembre 2020 - Plateforme de livraison éco-responsable',
+      rarity: 'bronze',
+      category: 'Milestone',
+      unlockDate: '15 septembre 2020'
+    },
+    {
+      id: 'ed-paying-client',
+      project: 'EcoDeliver',
+      icon: '💰',
+      title: 'Client payant',
+      description: 'Premier client payant',
+      detail: 'Premier restaurateur qui adopte notre solution',
+      rarity: 'bronze',
+      category: 'Sales',
+      unlockDate: '2 octobre 2020'
+    },
+    {
+      id: 'ed-phone-sale',
+      project: 'EcoDeliver',
+      icon: '📞',
+      title: '1ère vente au téléphone',
+      description: 'Première vente en cold calling',
+      detail: 'Contrat B2B signé après démonstration téléphonique',
+      rarity: 'silver',
+      category: 'Sales',
       unlockDate: '18 novembre 2020'
     },
     {
-      id: 'ed-b2b-success',
+      id: 'ed-2k-sale',
       project: 'EcoDeliver',
-      icon: '📈',
-      title: 'B2B Breakthrough',
-      description: 'Première grande entreprise cliente',
-      detail: 'Contrat 15K€ avec Monoprix - Validation du modèle B2B',
-      rarity: 'silver',
-      category: 'Business',
+      icon: '🎯',
+      title: '1ère vente à 2 000€',
+      description: 'Premier contrat à 4 chiffres',
+      detail: 'Package premium avec Monoprix - Montée en gamme',
+      rarity: 'gold',
+      category: 'Sales',
       unlockDate: '5 décembre 2020'
+    },
+    {
+      id: 'ed-lost-contract',
+      project: 'EcoDeliver',
+      icon: '💔',
+      title: 'Contrat perdu',
+      description: 'Perdre un gros contrat',
+      detail: 'Carrefour nous a préféré un concurrent - Leçon d\'humilité',
+      rarity: 'bronze',
+      category: 'Learning',
+      unlockDate: '20 janvier 2021'
     }
   ];
 
-  // Trophées FitTracker
+  // Trophées FitTracker Pro
   const fittrackerTrophies: Trophy[] = [
     {
-      id: 'ft-pmf',
+      id: 'ft-launch',
       project: 'FitTracker Pro',
-      icon: '🎯',
-      title: 'Product-Market Fit',
-      description: 'Atteindre le PMF',
-      detail: 'Croissance organique : les clients recommandent sans qu\'on demande',
-      rarity: 'gold',
+      icon: '🚀',
+      title: 'Lancement',
+      description: 'Lancement de FitTracker Pro',
+      detail: 'Janvier 2019 - Application de suivi fitness avec IA',
+      rarity: 'bronze',
       category: 'Milestone',
+      unlockDate: '15 janvier 2019'
+    },
+    {
+      id: 'ft-saas',
+      project: 'FitTracker Pro',
+      icon: '☁️',
+      title: '1er SaaS',
+      description: 'Premier modèle SaaS récurrent',
+      detail: 'Abonnement mensuel à 9.99€ - Modèle économique validé',
+      rarity: 'silver',
+      category: 'Product',
+      unlockDate: '20 février 2019'
+    },
+    {
+      id: 'ft-10k-sale',
+      project: 'FitTracker Pro',
+      icon: '💎',
+      title: '1ère vente à 10 000€',
+      description: 'Contrat entreprise à 5 chiffres',
+      detail: 'Licence entreprise pour Basic-Fit - 500 salles de sport',
+      rarity: 'gold',
+      category: 'Sales',
+      unlockDate: '15 mai 2019'
+    },
+    {
+      id: 'ft-international',
+      project: 'FitTracker Pro',
+      icon: '🌍',
+      title: 'Commande à l\'étranger',
+      description: 'Premier client international',
+      detail: 'FitnessFirst UK adopte notre solution - Expansion européenne',
+      rarity: 'gold',
+      category: 'Sales',
       unlockDate: '8 juin 2019'
     },
     {
       id: 'ft-exit',
       project: 'FitTracker Pro',
-      icon: '💎',
-      title: 'The Exit',
-      description: 'Première acquisition réussie',
+      icon: '🏆',
+      title: 'Vente de société',
+      description: 'Acquisition réussie',
       detail: 'Vendu 450K€ à FitnessCorp - 18 mois de travail valorisés',
       rarity: 'platinum',
       category: 'Exit',
@@ -111,49 +199,163 @@ export default function ModernTrophees() {
   // Trophées LocalChef  
   const localchefTrophies: Trophy[] = [
     {
-      id: 'lc-lesson',
+      id: 'lc-launch',
       project: 'LocalChef',
-      icon: '📚',
-      title: 'Expensive Lesson',
-      description: 'Apprendre de ses erreurs',
-      detail: 'Unit economics défaillantes - 50K€ de leçon sur l\'importance des marges',
+      icon: '🚀',
+      title: 'Lancement',
+      description: 'Lancement de LocalChef',
+      detail: 'Mai 2020 - Marketplace de chefs à domicile',
+      rarity: 'bronze',
+      category: 'Milestone',
+      unlockDate: '15 mai 2020'
+    },
+    {
+      id: 'lc-paying-client',
+      project: 'LocalChef',
+      icon: '💰',
+      title: 'Client payant',
+      description: 'Premier chef qui paie sa commission',
+      detail: 'Chef Marie, première à payer les 15% de commission',
+      rarity: 'bronze',
+      category: 'Sales',
+      unlockDate: '25 mai 2020'
+    },
+    {
+      id: 'lc-1k-sale',
+      project: 'LocalChef',
+      icon: '🍽️',
+      title: '1ère vente à 1 000€',
+      description: 'Premier dîner premium',
+      detail: 'Dîner gastronomique pour 8 personnes - Chef étoilé',
+      rarity: 'silver',
+      category: 'Sales',
+      unlockDate: '12 juin 2020'
+    },
+    {
+      id: 'lc-photo-studio',
+      project: 'LocalChef',
+      icon: '📸',
+      title: 'Photo studio',
+      description: 'Shooting photo professionnel',
+      detail: 'Séance photo des plats pour le marketing - Investment dans l\'image',
+      rarity: 'bronze',
+      category: 'Product',
+      unlockDate: '1 juillet 2020'
+    },
+    {
+      id: 'lc-client-departure',
+      project: 'LocalChef',
+      icon: '😢',
+      title: 'Client qui part',
+      description: 'Perdre un client important',
+      detail: 'Chef Thomas quitte la plateforme - Concurrence déloyale',
       rarity: 'bronze',
       category: 'Learning',
       unlockDate: '15 septembre 2020'
     }
   ];
 
-  // Trophées Globaux
+  // Trophées Globaux - Milestones financiers
   const globalTrophies: Trophy[] = [
     {
-      id: 'global-persistence',
-      icon: '💪',
-      title: 'Never Give Up',
-      description: 'Persistance face aux obstacles',
-      detail: 'Compte en banque : 127€. Loyer dans 5 jours. J\'ai persisté et NoCodeur a décollé',
+      id: 'global-3k-sale',
+      icon: '🎖️',
+      title: '1ère vente à 3 000€',
+      description: 'Palier des 3K€',
+      detail: 'NoCodeur - Package formation premium entreprise',
       rarity: 'gold',
-      category: 'Mindset',
-      unlockDate: '3 février 2021'
+      category: 'Financial',
+      unlockDate: '15 juin 2021'
     },
     {
-      id: 'global-mentor',
+      id: 'global-4k-sale',
+      icon: '🏅',
+      title: '1ère vente à 4 000€',
+      description: 'Palier des 4K€',
+      detail: 'NoCodeur - Consulting + formation personnalisée',
+      rarity: 'gold',
+      category: 'Financial',
+      unlockDate: '20 août 2021'
+    },
+    {
+      id: 'global-100k',
+      icon: '💯',
+      title: '100k€',
+      description: 'Premier palier à 6 chiffres',
+      detail: 'Cumul de revenus sur tous les projets - Milestone symbolique',
+      rarity: 'gold',
+      category: 'Financial',
+      unlockDate: '15 décembre 2021'
+    },
+    {
+      id: 'global-negotiation',
       icon: '🤝',
-      title: 'Right Mentor',
-      description: 'Trouver le bon mentor',
-      detail: 'Rencontre avec Marc Z., serial entrepreneur - Il m\'a ouvert son réseau',
+      title: 'Négociation',
+      description: 'Maîtriser l\'art de la négociation',
+      detail: 'Négocier le contrat FitTracker avec FitnessCorp - +50% du prix initial',
       rarity: 'silver',
-      category: 'Network',
-      unlockDate: '20 janvier 2020'
+      category: 'Skill',
+      unlockDate: '10 juillet 2020'
     },
     {
-      id: 'global-metrics',
-      icon: '📊',
-      title: 'Metrics Master',
-      description: 'Maîtriser les bonnes métriques',
-      detail: 'J\'ai arrêté de suivre les vanity metrics pour me concentrer sur CAC/LTV',
+      id: 'global-bulk-order',
+      icon: '📦',
+      title: 'Commande en gros',
+      description: 'Première grosse commande volume',
+      detail: '50 licences FitTracker pour une chaîne de salles de sport',
+      rarity: 'silver',
+      category: 'Sales',
+      unlockDate: '25 avril 2019'
+    },
+    {
+      id: 'global-logo-creation',
+      icon: '🎨',
+      title: 'Création de logo',
+      description: 'Développer son identité visuelle',
+      detail: 'Création du logo Lean Studio - Cohérence sur tous les projets',
       rarity: 'bronze',
-      category: 'Learning',
-      unlockDate: '10 mai 2019'
+      category: 'Product',
+      unlockDate: '5 janvier 2019'
+    },
+    {
+      id: 'global-200k',
+      icon: '💎',
+      title: '200k€',
+      description: 'Palier des 200K€',
+      detail: 'Somme cumulée sur tous les projets - Expansion confirmée',
+      rarity: 'gold',
+      category: 'Financial',
+      unlockDate: '15 juin 2022'
+    },
+    {
+      id: 'global-300k',
+      icon: '🏆',
+      title: '300k€',
+      description: 'Palier des 300K€',
+      detail: 'Portfolio mature - Diversification réussie',
+      rarity: 'gold',
+      category: 'Financial',
+      unlockDate: '20 septembre 2022'
+    },
+    {
+      id: 'global-500k',
+      icon: '👑',
+      title: '500k€',
+      description: 'Demi-million d\'euros',
+      detail: 'Validation du modèle entrepreneurial - Expertise confirmée',
+      rarity: 'platinum',
+      category: 'Financial',
+      unlockDate: '10 février 2023'
+    },
+    {
+      id: 'global-1m',
+      icon: '🌟',
+      title: '1M€',
+      description: 'Premier million d\'euros',
+      detail: 'Milestone ultime - Entrepreneur accompli',
+      rarity: 'platinum',
+      category: 'Financial',
+      unlockDate: '25 août 2023'
     }
   ];
 
@@ -162,7 +364,7 @@ export default function ModernTrophees() {
     { category: 'EcoDeliver', trophies: ecodeliverTrophies, icon: '🌱' },
     { category: 'FitTracker Pro', trophies: fittrackerTrophies, icon: '💪' },
     { category: 'LocalChef', trophies: localchefTrophies, icon: '👨‍🍳' },
-    { category: 'Trophées Globaux', trophies: globalTrophies, icon: '🌟' }
+    { category: 'Milestones Globaux', trophies: globalTrophies, icon: '🏆' }
   ];
 
   const totalTrophies = allTrophies.reduce((acc, section) => acc + section.trophies.length, 0);
