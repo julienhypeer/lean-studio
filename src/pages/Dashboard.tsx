@@ -61,25 +61,20 @@ export default function Dashboard({ business }: DashboardProps) {
     <div className="p-8">
       {/* Header */}
       <div className="mb-8">
-        <div className="flex items-start justify-between">
-          <div>
-            <div className="flex items-center gap-3 mb-2">
-              <span className="text-4xl">{business.logo}</span>
-              <div>
-                <h1 className="text-3xl font-bold text-text-primary">{business.name}</h1>
-                <p className="text-text-secondary">{business.tagline}</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4 mt-4">
-              {getStatusBadge()}
-              <span className="text-sm text-text-secondary">
-                {business.industry}
-              </span>
+        <div>
+          <div className="flex items-center gap-3 mb-2">
+            <span className="text-4xl">{business.logo}</span>
+            <div>
+              <h1 className="text-3xl font-bold text-text-primary">{business.name}</h1>
+              <p className="text-text-secondary">{business.tagline}</p>
             </div>
           </div>
-          <button className="px-4 py-2 bg-accent text-white rounded-lg hover:bg-primary-600 transition-colors font-medium">
-            Éditer Profil
-          </button>
+          <div className="flex items-center gap-4 mt-4">
+            {getStatusBadge()}
+            <span className="text-sm text-text-secondary">
+              {business.industry}
+            </span>
+          </div>
         </div>
       </div>
 

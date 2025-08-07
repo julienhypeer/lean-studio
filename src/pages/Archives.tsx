@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Calendar, FileText, Trophy, TrendingUp, AlertCircle, CheckCircle } from 'lucide-react';
+import { Calendar, Image, Trophy, TrendingUp, AlertCircle, CheckCircle } from 'lucide-react';
 import { Business } from '../types/business';
 
 interface ArchivesProps {
@@ -7,14 +7,20 @@ interface ArchivesProps {
 }
 
 export default function Archives({ business }: ArchivesProps) {
-  const [activeTab, setActiveTab] = useState<'documents' | 'metrics' | 'timeline'>('documents');
+  const [activeTab, setActiveTab] = useState<'gallery' | 'metrics' | 'timeline'>('gallery');
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  const documents = [
-    { id: 1, name: 'Business Plan Initial', type: 'PDF', size: '2.4 MB', icon: FileText, category: 'Stratégie' },
-    { id: 2, name: 'Étude de Marché', type: 'XLSX', size: '1.8 MB', icon: TrendingUp, category: 'Analyse' },
-    { id: 3, name: 'Contrats Clients', type: 'ZIP', size: '15.2 MB', icon: Trophy, category: 'Commercial' },
-    { id: 4, name: 'Bilans Financiers', type: 'PDF', size: '3.1 MB', icon: FileText, category: 'Finance' },
-    { id: 5, name: 'Présentations Investisseurs', type: 'PPT', size: '8.7 MB', icon: Trophy, category: 'Levée de fonds' },
+  // Example screenshots/photos - replace with actual business images
+  const galleryImages = [
+    { id: 1, url: 'https://via.placeholder.com/400x300/FF6B35/FFFFFF?text=Landing+Page', title: 'Landing Page', category: 'Design' },
+    { id: 2, url: 'https://via.placeholder.com/400x300/4A5568/FFFFFF?text=Dashboard+V1', title: 'Dashboard V1', category: 'Product' },
+    { id: 3, url: 'https://via.placeholder.com/400x300/10B981/FFFFFF?text=Team+Photo', title: 'Team Photo', category: 'Équipe' },
+    { id: 4, url: 'https://via.placeholder.com/400x300/3B82F6/FFFFFF?text=Mobile+App', title: 'Mobile App', category: 'Product' },
+    { id: 5, url: 'https://via.placeholder.com/400x300/8B5CF6/FFFFFF?text=Pitch+Deck', title: 'Pitch Deck', category: 'Présentation' },
+    { id: 6, url: 'https://via.placeholder.com/400x300/EF4444/FFFFFF?text=Marketing', title: 'Campaign Banner', category: 'Marketing' },
+    { id: 7, url: 'https://via.placeholder.com/400x300/F59E0B/FFFFFF?text=Analytics', title: 'Analytics View', category: 'Product' },
+    { id: 8, url: 'https://via.placeholder.com/400x300/14B8A6/FFFFFF?text=Event', title: 'Launch Event', category: 'Événement' },
+    { id: 9, url: 'https://via.placeholder.com/400x300/EC4899/FFFFFF?text=Features', title: 'Features Page', category: 'Design' },
   ];
 
   const keyEvents = [
@@ -50,14 +56,14 @@ export default function Archives({ business }: ArchivesProps) {
         {/* Tabs */}
         <div className="flex gap-4 mt-6 border-b border-gray-200">
           <button
-            onClick={() => setActiveTab('documents')}
+            onClick={() => setActiveTab('gallery')}
             className={`px-4 py-2 font-medium transition-colors ${
-              activeTab === 'documents'
+              activeTab === 'gallery'
                 ? 'text-accent border-b-2 border-accent'
                 : 'text-text-secondary hover:text-text-primary'
             }`}
           >
-            📄 Documents
+            🖼️ Galerie
           </button>
           <button
             onClick={() => setActiveTab('metrics')}
@@ -83,29 +89,52 @@ export default function Archives({ business }: ArchivesProps) {
       </div>
 
       {/* Content */}
-      {activeTab === 'documents' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {documents.map((doc) => (
-            <div key={doc.id} className="bg-white rounded-card shadow-card p-6 hover:shadow-hover transition-shadow cursor-pointer">
-              <div className="flex items-start justify-between mb-4">
-                <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center">
-                  <doc.icon className="w-6 h-6 text-accent" />
+      {activeTab === 'gallery' && (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {galleryImages.map((image) => (
+              <div 
+                key={image.id} 
+                className="bg-white rounded-card shadow-card overflow-hidden hover:shadow-hover transition-all cursor-pointer group"
+                onClick={() => setSelectedImage(image.url)}
+              >
+                <div className="aspect-[4/3] overflow-hidden bg-gray-100">
+                  <img 
+                    src={image.url} 
+                    alt={image.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
                 </div>
-                <span className="text-xs text-text-secondary bg-gray-100 px-2 py-1 rounded">
-                  {doc.type}
-                </span>
+                <div className="p-4">
+                  <h3 className="font-semibold text-text-primary mb-1">{image.title}</h3>
+                  <p className="text-sm text-text-secondary">{image.category}</p>
+                </div>
               </div>
-              <h3 className="font-semibold text-text-primary mb-1">{doc.name}</h3>
-              <p className="text-sm text-text-secondary mb-3">{doc.category}</p>
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-text-secondary">{doc.size}</span>
-                <button className="text-accent hover:text-primary-600 text-sm font-medium">
-                  Télécharger
+            ))}
+          </div>
+
+          {/* Lightbox Modal */}
+          {selectedImage && (
+            <div 
+              className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
+              onClick={() => setSelectedImage(null)}
+            >
+              <div className="max-w-4xl max-h-[90vh] relative">
+                <img 
+                  src={selectedImage} 
+                  alt="Full size" 
+                  className="max-w-full max-h-full object-contain rounded-lg"
+                />
+                <button 
+                  onClick={() => setSelectedImage(null)}
+                  className="absolute top-4 right-4 w-10 h-10 bg-white/10 backdrop-blur rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                >
+                  ✕
                 </button>
               </div>
             </div>
-          ))}
-        </div>
+          )}
+        </>
       )}
 
       {activeTab === 'metrics' && (
