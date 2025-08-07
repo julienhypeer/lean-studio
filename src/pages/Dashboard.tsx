@@ -78,6 +78,44 @@ export default function Dashboard({ business }: DashboardProps) {
         </div>
       </div>
 
+      {/* Histoire du Projet */}
+      <div className="bg-gradient-to-r from-gray-50 to-white rounded-card shadow-card p-6 mb-8 border-l-4 border-accent">
+        <h2 className="text-xl font-bold text-text-primary mb-3 flex items-center gap-2">
+          <span className="text-2xl">📖</span>
+          L'Histoire
+        </h2>
+        <div className="space-y-3 text-text-secondary leading-relaxed">
+          <p>
+            {business.name === 'FitTracker' && 
+              "FitTracker est né d'une frustration personnelle : impossible de trouver une app de fitness simple et motivante. Après 6 mois de développement nocturne, j'ai lancé la première version en janvier 2019. Le pivot B2B est arrivé quand des salles de sport ont commencé à me contacter pour une version white-label."
+            }
+            {business.name === 'EcoMarket' && 
+              "EcoMarket a démarré comme une marketplace C2C pour produits éco-responsables. Après 3 mois sans traction, j'ai pivoté vers le B2B en proposant aux marques éthiques une solution e-commerce clé en main. Ce pivot a tout changé : 50K€ de contrat avec Carrefour Bio en 6 mois."
+            }
+            {business.name === 'TaskMaster' && 
+              "TaskMaster était mon projet le plus ambitieux : révolutionner la gestion de projet avec l'IA. Malgré 30K€ investis et une équipe de 3 personnes, nous n'avons jamais trouvé le product-market fit. L'échec m'a appris l'importance de valider avant de construire."
+            }
+            {business.name === 'NoCodeur' && 
+              "NoCodeur est ma réponse au mouvement no-code. Lancé en 2021, j'aide les entrepreneurs non-techniques à créer leurs MVPs sans coder. La communauté compte aujourd'hui 500+ membres actifs et génère 3K€ MRR en formations et templates."
+            }
+          </p>
+          <p className="italic text-sm">
+            {business.name === 'FitTracker' && 
+              "💡 Leçon clé : Écouter ses utilisateurs peut transformer complètement la trajectoire d'un produit."
+            }
+            {business.name === 'EcoMarket' && 
+              "💡 Leçon clé : Un pivot rapide basé sur des signaux marché peut sauver une startup."
+            }
+            {business.name === 'TaskMaster' && 
+              "💡 Leçon clé : Fail fast, learn faster. Chaque échec est une masterclass déguisée."
+            }
+            {business.name === 'NoCodeur' && 
+              "💡 Leçon clé : Construire une communauté avant le produit crée une demande organique."
+            }
+          </p>
+        </div>
+      </div>
+
       {/* Metrics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         <MetricCard
