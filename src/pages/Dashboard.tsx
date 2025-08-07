@@ -1,12 +1,9 @@
 import { Business } from '../types/business';
 import MetricCard from '../components/MetricCard';
 import RevenueChart from '../components/RevenueChart';
-import ProductTable from '../components/ProductTable';
-import RecentOrders from '../components/RecentOrders';
 import { 
   TrendingUp, 
   Users, 
-  ShoppingBag, 
   DollarSign,
   Activity,
   Target,
@@ -76,8 +73,7 @@ export default function Dashboard({ business }: DashboardProps) {
             <div className="flex items-center gap-4 mt-4">
               {getStatusBadge()}
               <span className="text-sm text-text-secondary">
-                {business.industry} • Lancé le {new Date(business.startDate).toLocaleDateString('fr-FR')}
-                {business.endDate && ` • Fin le ${new Date(business.endDate).toLocaleDateString('fr-FR')}`}
+                {business.industry}
               </span>
             </div>
           </div>
@@ -88,7 +84,7 @@ export default function Dashboard({ business }: DashboardProps) {
       </div>
 
       {/* Metrics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         <MetricCard
           title="Revenue Total"
           value={formatCurrency(business.metrics.totalRevenue)}
@@ -117,16 +113,6 @@ export default function Dashboard({ business }: DashboardProps) {
           icon={Users}
           iconColor="text-blue-600"
           subtitle={`CAC: ${formatCurrency(business.metrics.cac)}`}
-        />
-        
-        <MetricCard
-          title="Commandes"
-          value={formatNumber(business.metrics.totalOrders)}
-          change="12.5%"
-          changeType="increase"
-          icon={ShoppingBag}
-          iconColor="text-purple-600"
-          subtitle="Toutes catégories"
         />
       </div>
 
@@ -170,19 +156,9 @@ export default function Dashboard({ business }: DashboardProps) {
         </div>
       )}
 
-      {/* Charts and Tables */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        <div className="lg:col-span-2">
-          <RevenueChart data={business.monthlyData} />
-        </div>
-        <div className="lg:col-span-1">
-          <RecentOrders orders={business.recentOrders} />
-        </div>
-      </div>
-
-      {/* Products Table */}
+      {/* Charts */}
       <div className="mb-8">
-        <ProductTable products={business.products} />
+        <RevenueChart data={business.monthlyData} />
       </div>
 
       {/* Milestones & Lessons */}
@@ -204,9 +180,6 @@ export default function Dashboard({ business }: DashboardProps) {
                       <p className="font-medium text-text-primary">{milestone.title}</p>
                       <p className="text-sm text-text-secondary mt-1">{milestone.description}</p>
                     </div>
-                    <span className="text-xs text-text-secondary whitespace-nowrap ml-4">
-                      {new Date(milestone.date).toLocaleDateString('fr-FR')}
-                    </span>
                   </div>
                 </div>
               </div>
