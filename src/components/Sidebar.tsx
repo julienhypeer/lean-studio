@@ -34,8 +34,14 @@ export default function Sidebar({ currentBusiness, onBusinessChange, businesses 
 
   return (
     <div className="w-64 h-screen bg-primary-600 flex flex-col">
+      {/* Logo/Brand - Moved to top */}
+      <div className="p-6 text-center border-b border-white/20">
+        <h1 className="text-2xl font-bold text-white">Lean Studio</h1>
+        <p className="text-white/60 text-sm mt-1">Track Record</p>
+      </div>
+
       {/* Business Selector */}
-      <div className="p-4 border-b border-white/20">
+      <div className="p-4">
         <div className="relative">
           <button
             onClick={() => setIsBusinessDropdownOpen(!isBusinessDropdownOpen)}
@@ -71,12 +77,6 @@ export default function Sidebar({ currentBusiness, onBusinessChange, businesses 
             </div>
           )}
         </div>
-      </div>
-
-      {/* Logo/Brand */}
-      <div className="p-6 text-center">
-        <h1 className="text-2xl font-bold text-white">Lean Studio</h1>
-        <p className="text-white/60 text-sm mt-1">Track Record</p>
       </div>
 
       {/* Navigation Menu */}
