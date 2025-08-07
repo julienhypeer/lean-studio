@@ -1,9 +1,7 @@
 import { 
   Home,
   LayoutDashboard, 
-  MessageSquare, 
-  Calendar,
-  Settings,
+  MessageSquare,
   LogOut,
   ChevronDown
 } from 'lucide-react';
@@ -25,8 +23,7 @@ export default function Sidebar({ currentBusiness, onBusinessChange, businesses 
   const menuItems = [
     { icon: Home, label: '⏱️ Timeline', path: '/portfolio' },
     { icon: LayoutDashboard, label: '📊 Dashboard', path: '/dashboard' },
-    { icon: MessageSquare, label: '✨ Moments forts', path: '/journal' },
-    { icon: Settings, label: '⚙️ Paramètres', path: '/settings' },
+    { icon: MessageSquare, label: '✨ Moments forts', path: '/moments-forts' },
   ];
 
   return (

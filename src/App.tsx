@@ -4,6 +4,7 @@ import DashboardLayout from './layouts/DashboardLayout';
 import Dashboard from './pages/Dashboard';
 import Portfolio from './pages/Portfolio';
 import HeroTerminal from './pages/HeroTerminal';
+import MomentsForts from './pages/MomentsForts';
 import { mockBusinesses } from './data/mockData';
 
 function AppContent() {
@@ -35,37 +36,9 @@ function AppContent() {
       <Routes>
         <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/dashboard" element={<Dashboard business={currentBusiness} />} />
-          <Route path="/analytics" element={
-            <div className="p-8">
-              <h1 className="text-3xl font-bold">Analytics - En construction</h1>
-            </div>
-          } />
-          <Route path="/metrics" element={
-            <div className="p-8">
-              <h1 className="text-3xl font-bold">Métriques - En construction</h1>
-            </div>
-          } />
-          <Route path="/products" element={
-            <div className="p-8">
-              <h1 className="text-3xl font-bold">Produits - En construction</h1>
-            </div>
-          } />
-          <Route path="/messages" element={
-            <div className="p-8">
-              <h1 className="text-3xl font-bold">Messages - En construction</h1>
-            </div>
-          } />
-          <Route path="/timeline" element={
-            <div className="p-8">
-              <h1 className="text-3xl font-bold">Timeline - En construction</h1>
-            </div>
-          } />
-          <Route path="/settings" element={
-            <div className="p-8">
-              <h1 className="text-3xl font-bold">Paramètres - En construction</h1>
-            </div>
-          } />
-        </Routes>
+        <Route path="/moments-forts" element={<MomentsForts />} />
+        <Route path="/journal" element={<MomentsForts />} />
+      </Routes>
       </DashboardLayout>
   );
 }
