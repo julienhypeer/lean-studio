@@ -286,6 +286,25 @@ export default function Portfolio() {
                 
                 <p className="text-slate-600 text-sm mb-4">{business.tagline}</p>
                 
+                {/* L'IDÉE et LA VISION */}
+                <div className="space-y-3 mb-4">
+                  <div className="bg-blue-50 rounded-lg p-3">
+                    <div className="flex items-center gap-2 text-blue-600 mb-2">
+                      <span className="text-sm">💡</span>
+                      <p className="text-xs uppercase tracking-wider font-medium">L'IDÉE</p>
+                    </div>
+                    <p className="text-sm text-slate-700 line-clamp-2">{business.idea}</p>
+                  </div>
+                  
+                  <div className="bg-purple-50 rounded-lg p-3">
+                    <div className="flex items-center gap-2 text-purple-600 mb-2">
+                      <span className="text-sm">🎯</span>
+                      <p className="text-xs uppercase tracking-wider font-medium">LA VISION</p>
+                    </div>
+                    <p className="text-sm text-slate-700 line-clamp-2">{business.vision}</p>
+                  </div>
+                </div>
+                
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-slate-50 rounded-lg p-3">
                     <div className="flex items-center gap-2 text-slate-500 mb-1">

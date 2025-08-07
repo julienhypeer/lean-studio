@@ -7,6 +7,10 @@ export interface Business {
   startDate: string;
   endDate?: string;
   industry: string;
+  idea: string;
+  vision: string;
+  story: string;
+  anecdote: string;
   
   metrics: {
     totalRevenue: number;
