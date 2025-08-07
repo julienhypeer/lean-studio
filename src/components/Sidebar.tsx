@@ -1,12 +1,9 @@
 import { 
   Home,
   LayoutDashboard, 
-  BarChart3, 
   MessageSquare, 
   Calendar,
   Settings,
-  TrendingUp,
-  Briefcase,
   LogOut,
   ChevronDown
 } from 'lucide-react';
@@ -26,14 +23,11 @@ export default function Sidebar({ currentBusiness, onBusinessChange, businesses 
   const navigate = useNavigate();
 
   const menuItems = [
-    { icon: Home, label: 'Portfolio', path: '/portfolio' },
-    { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
-    { icon: BarChart3, label: 'Analytics', path: '/analytics' },
-    { icon: TrendingUp, label: 'Métriques', path: '/metrics' },
-    { icon: Briefcase, label: 'Produits', path: '/products' },
-    { icon: MessageSquare, label: 'Messages', path: '/messages' },
-    { icon: Calendar, label: 'Timeline', path: '/timeline' },
-    { icon: Settings, label: 'Paramètres', path: '/settings' },
+    { icon: Home, label: '🏠 Portfolio', path: '/portfolio' },
+    { icon: LayoutDashboard, label: '📊 Dashboard', path: '/dashboard' },
+    { icon: MessageSquare, label: '📝 Journal', path: '/journal' },
+    { icon: Calendar, label: '🚀 Projets', path: '/projects' },
+    { icon: Settings, label: '⚙️ Paramètres', path: '/settings' },
   ];
 
   return (
@@ -89,12 +83,11 @@ export default function Sidebar({ currentBusiness, onBusinessChange, businesses 
           <button
             key={item.label}
             onClick={() => navigate(item.path)}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-white/80 hover:bg-white/10 hover:text-white transition-all mb-1 ${
+            className={`w-full flex items-center px-4 py-3 rounded-lg text-white/80 hover:bg-white/10 hover:text-white transition-all mb-1 text-left ${
               location.pathname === item.path ? 'bg-white/20 text-white' : ''
             }`}
           >
-            <item.icon className="w-5 h-5" />
-            <span className="font-medium">{item.label}</span>
+            <span className="font-medium text-lg">{item.label}</span>
           </button>
         ))}
       </nav>
