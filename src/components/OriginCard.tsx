@@ -45,32 +45,22 @@ export default function OriginCard({ projectName, origin }: OriginCardProps) {
         {/* Origin Story */}
         <div className="space-y-3">
           <div className="flex items-start gap-3">
-            <div className="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-              <span className="text-xs">❗</span>
-            </div>
-            <div>
-              <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Le Problème</p>
-              <p className="text-sm text-slate-700">{origin.problem}</p>
-            </div>
-          </div>
-          
-          <div className="flex items-start gap-3">
-            <div className="w-6 h-6 bg-yellow-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+            <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
               <span className="text-xs">💡</span>
             </div>
             <div>
-              <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Le Déclic</p>
-              <p className="text-sm text-slate-700">{origin.trigger}</p>
+              <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">L'Idée</p>
+              <p className="text-sm text-slate-700 line-clamp-3">{origin.problem}</p>
             </div>
           </div>
           
           <div className="flex items-start gap-3">
-            <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+            <div className="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
               <span className="text-xs">🎯</span>
             </div>
             <div>
               <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">La Vision</p>
-              <p className="text-sm text-slate-700">{origin.vision}</p>
+              <p className="text-sm text-slate-700 line-clamp-3">{origin.vision}</p>
             </div>
           </div>
         </div>

@@ -28,42 +28,15 @@ export default function ModernDashboard({ business }: ModernDashboardProps) {
   };
 
   const getOriginStory = () => {
-    const origins = {
-      'nocodeur': {
-        problem: "Des entrepreneurs brillants bloqués par le code",
-        trigger: "Si Shopify existe, pourquoi pas pour tout ?",
-        vision: "Démocratiser la création tech",
-        location: "Paris, WeWork Opéra",
-        date: "Mars 2021",
-        moment: "Discussion avec un ami développeur"
-      },
-      'ecodeliver': {
-        problem: "30% des livraisons = trajets à vide",
-        trigger: "Mon voisin allait au même endroit que mon colis",
-        vision: "L'Uber du colis éco-responsable",
-        location: "Chez moi, Vincennes",
-        date: "Septembre 2020",
-        moment: "En voyant le livreur Amazon"
-      },
-      'fittracker-pro': {
-        problem: "Excel pour tracker ses séances = l'enfer",
-        trigger: "Mon coach utilisait encore un carnet papier en 2019",
-        vision: "Le Strava de la musculation",
-        location: "Basic-Fit, République",
-        date: "Janvier 2019",
-        moment: "3h du matin, salle vide"
-      },
-      'localchef': {
-        problem: "Uber Eats = malbouffe industrielle",
-        trigger: "Ma voisine cuisine mieux que tous les restos du coin",
-        vision: "L'Airbnb de la gastronomie",
-        location: "Palier du 3ème étage",
-        date: "Mai 2020",
-        moment: "Confinement COVID"
-      }
+    // Utiliser les vraies données du business
+    return {
+      problem: business.idea || "Projet en développement",
+      trigger: business.anecdote || "Histoire à venir",
+      vision: business.vision || "Vision en construction",
+      location: business.industry,
+      date: new Date(business.startDate).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }),
+      moment: business.status
     };
-    
-    return origins[business.id as keyof typeof origins] || origins['nocodeur'];
   };
 
   const formatNumber = (value: number) => {
@@ -138,35 +111,33 @@ export default function ModernDashboard({ business }: ModernDashboardProps) {
         </h2>
         <div className="space-y-2">
           <p className="text-sm text-slate-600 leading-relaxed">
-            {business.name === 'NoCodeur' && 
-              "NoCodeur est ma réponse au mouvement no-code. Lancé en 2021, j'aide les entrepreneurs non-techniques à créer leurs MVPs sans coder. La communauté compte aujourd'hui 500+ membres actifs et génère 3K€ MRR en formations et templates."
-            }
-            {business.name === 'EcoDeliver' && 
-              "EcoDeliver a démarré comme une marketplace C2C pour livraisons éco-responsables. Après 3 mois sans traction, j'ai pivoté vers le B2B. Ce pivot a tout changé mais les coûts logistiques ont finalement eu raison du projet."
-            }
-            {business.name === 'FitTracker Pro' && 
-              "FitTracker Pro était mon projet le plus ambitieux dans le fitness. L'ajout de l'IA pour le coaching personnalisé a été le game-changer. Vendu à FitnessCorp pour 450K€ après 2 ans."
-            }
-            {business.name === 'LocalChef' && 
-              "LocalChef connectait des chefs à domicile avec des particuliers. Malgré une excellente réception, les unit economics n'ont jamais fonctionné. Leçon apprise : valider les marges avant de scaler."
-            }
+            {business.story}
           </p>
-          <p className="text-xs italic text-slate-400 pt-2 border-t border-slate-100">
-            {business.name === 'NoCodeur' && 
-              "💡 Construire une communauté avant le produit crée une demande organique."
-            }
-            {business.name === 'EcoDeliver' && 
-              "💡 Un pivot rapide basé sur des signaux marché peut sauver une startup."
-            }
-            {business.name === 'FitTracker Pro' && 
-              "💡 L'IA est un différenciateur clé sur le marché fitness."
-            }
-            {business.name === 'LocalChef' && 
-              "💡 Valider les unit economics avant de scaler."
-            }
-          </p>
+          {business.lessonsLearned && business.lessonsLearned.length > 0 && (
+            <p className="text-xs italic text-slate-400 pt-2 border-t border-slate-100">
+              💡 {business.lessonsLearned[0]}
+            </p>
+          )}
         </div>
       </motion.div>
+
+      {/* Anecdote */}
+      {business.anecdote && (
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-xl p-5 mb-6"
+        >
+          <h2 className="text-base font-semibold text-slate-900 mb-3 flex items-center gap-2">
+            <span className="text-lg">🎭</span>
+            Anecdote Mémorable
+          </h2>
+          <p className="text-sm text-slate-700 leading-relaxed">
+            {business.anecdote}
+          </p>
+        </motion.div>
+      )}
 
       {/* Metrics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
