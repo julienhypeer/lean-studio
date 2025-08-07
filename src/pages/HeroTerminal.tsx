@@ -27,6 +27,68 @@ export default function HeroTerminal() {
             <ArrowRight className="w-5 h-5" />
           </button>
         </div>
+
+        {/* Logo Carousel */}
+        <div className="mt-20 w-full max-w-6xl mx-auto">
+          <div className="relative overflow-hidden">
+            <div className="flex space-x-16 animate-carousel">
+              {/* Premier set de logos */}
+              <div className="flex space-x-16 shrink-0">
+                <div className="flex items-center justify-center w-32 h-16">
+                  <span className="text-4xl grayscale opacity-60 hover:opacity-100 transition-opacity">🚀</span>
+                  <span className="ml-2 text-gray-600 font-semibold">NoCodeur</span>
+                </div>
+                <div className="flex items-center justify-center w-32 h-16">
+                  <span className="text-4xl grayscale opacity-60 hover:opacity-100 transition-opacity">🌱</span>
+                  <span className="ml-2 text-gray-600 font-semibold">EcoDeliver</span>
+                </div>
+                <div className="flex items-center justify-center w-32 h-16">
+                  <span className="text-4xl grayscale opacity-60 hover:opacity-100 transition-opacity">💪</span>
+                  <span className="ml-2 text-gray-600 font-semibold">FitTracker</span>
+                </div>
+                <div className="flex items-center justify-center w-32 h-16">
+                  <span className="text-4xl grayscale opacity-60 hover:opacity-100 transition-opacity">👨‍🍳</span>
+                  <span className="ml-2 text-gray-600 font-semibold">LocalChef</span>
+                </div>
+                <div className="flex items-center justify-center w-32 h-16">
+                  <span className="text-4xl grayscale opacity-60 hover:opacity-100 transition-opacity">📊</span>
+                  <span className="ml-2 text-gray-600 font-semibold">DataBoost</span>
+                </div>
+                <div className="flex items-center justify-center w-32 h-16">
+                  <span className="text-4xl grayscale opacity-60 hover:opacity-100 transition-opacity">🎯</span>
+                  <span className="ml-2 text-gray-600 font-semibold">TargetAI</span>
+                </div>
+              </div>
+              {/* Deuxième set de logos (duplication pour l'effet infini) */}
+              <div className="flex space-x-16 shrink-0">
+                <div className="flex items-center justify-center w-32 h-16">
+                  <span className="text-4xl grayscale opacity-60 hover:opacity-100 transition-opacity">🚀</span>
+                  <span className="ml-2 text-gray-600 font-semibold">NoCodeur</span>
+                </div>
+                <div className="flex items-center justify-center w-32 h-16">
+                  <span className="text-4xl grayscale opacity-60 hover:opacity-100 transition-opacity">🌱</span>
+                  <span className="ml-2 text-gray-600 font-semibold">EcoDeliver</span>
+                </div>
+                <div className="flex items-center justify-center w-32 h-16">
+                  <span className="text-4xl grayscale opacity-60 hover:opacity-100 transition-opacity">💪</span>
+                  <span className="ml-2 text-gray-600 font-semibold">FitTracker</span>
+                </div>
+                <div className="flex items-center justify-center w-32 h-16">
+                  <span className="text-4xl grayscale opacity-60 hover:opacity-100 transition-opacity">👨‍🍳</span>
+                  <span className="ml-2 text-gray-600 font-semibold">LocalChef</span>
+                </div>
+                <div className="flex items-center justify-center w-32 h-16">
+                  <span className="text-4xl grayscale opacity-60 hover:opacity-100 transition-opacity">📊</span>
+                  <span className="ml-2 text-gray-600 font-semibold">DataBoost</span>
+                </div>
+                <div className="flex items-center justify-center w-32 h-16">
+                  <span className="text-4xl grayscale opacity-60 hover:opacity-100 transition-opacity">🎯</span>
+                  <span className="ml-2 text-gray-600 font-semibold">TargetAI</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </AuroraBackground>
   );

@@ -85,3 +85,17 @@
 .animate-slideOutLeft {
   animation: slideOutLeft 0.3s cubic-bezier(0.4, 0, 0.6, 1) forwards;
 }
+
+/* Logo Carousel Animation */
+@keyframes carousel {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-carousel {
+  animation: carousel 30s linear infinite;
+}
