@@ -44,16 +44,16 @@ export default function Portfolio() {
 
   const getStatusBadge = (status: string) => {
     const configs = {
-      active: { label: 'Actif', class: 'bg-green-50 text-green-700 border-green-200', icon: '🟢' },
-      pivoted: { label: 'Pivoté', class: 'bg-yellow-50 text-yellow-700 border-yellow-200', icon: '🔄' },
-      sold: { label: 'Vendu', class: 'bg-blue-50 text-blue-700 border-blue-200', icon: '💰' },
-      closed: { label: 'Fermé', class: 'bg-red-50 text-red-700 border-red-200', icon: '🔴' },
+      active: { label: 'Actif', class: 'bg-green-50 text-green-700 border-green-200', icon: '•' },
+      pivoted: { label: 'Pivoté', class: 'bg-yellow-50 text-yellow-700 border-yellow-200', icon: '↻' },
+      sold: { label: 'Vendu', class: 'bg-blue-50 text-blue-700 border-blue-200', icon: '✓' },
+      closed: { label: 'Fermé', class: 'bg-red-50 text-red-700 border-red-200', icon: '×' },
     };
     
     const config = configs[status as keyof typeof configs];
     return (
-      <span className={`px-2 py-1 rounded-md text-xs font-medium border ${config.class} flex items-center gap-1`}>
-        <span className="text-sm">{config.icon}</span>
+      <span className={`px-2 py-0.5 rounded-full text-xs font-medium border ${config.class} inline-flex items-center gap-1`}>
+        <span className="text-xs font-bold">{config.icon}</span>
         {config.label}
       </span>
     );
@@ -144,70 +144,88 @@ export default function Portfolio() {
       </div>
 
       {/* Timeline Section */}
-      <div className="px-4 sm:px-6 py-12 sm:py-16">
+      <div className="px-4 sm:px-6 py-12 sm:py-16 bg-gradient-to-b from-white to-slate-50">
         <div className="max-w-6xl mx-auto">
-          <motion.h2 
+          <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-2xl sm:text-3xl font-bold text-slate-900 mb-6 sm:mb-8 flex items-center gap-3"
+            className="mb-8"
           >
-            <Clock className="w-6 h-6 sm:w-8 sm:h-8 text-orange-500" />
-            Timeline des Projets
-          </motion.h2>
+            <div className="bg-gradient-to-r from-slate-900 to-slate-800 rounded-xl p-6 text-white">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 bg-white/10 backdrop-blur rounded-xl flex items-center justify-center">
+                  <Clock className="w-6 h-6 text-orange-400" />
+                </div>
+                <div>
+                  <h2 className="text-2xl sm:text-3xl font-bold">Timeline des Projets</h2>
+                  <p className="text-slate-300 text-sm mt-1">Parcours chronologique de mes ventures</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
           
           <div className="relative">
             {/* Timeline line */}
-            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-slate-200"></div>
+            <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-gradient-to-b from-slate-300 via-slate-200 to-slate-300"></div>
             
             {/* Timeline items */}
-            <div className="space-y-8">
+            <div className="space-y-6">
               {mockBusinesses.map((business, index) => (
                 <motion.div 
                   key={business.id}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.3 + index * 0.1 }}
-                  className="relative flex items-start gap-6"
+                  className="relative flex items-start gap-4"
                 >
-                  {/* Timeline dot */}
+                  {/* Timeline dot with logo */}
                   <div className="relative z-10">
-                    <div className={`w-16 h-16 rounded-xl flex items-center justify-center text-2xl border-4 border-white shadow-lg overflow-hidden
-                      ${business.status === 'active' ? 'bg-green-100' : 
-                        business.status === 'sold' ? 'bg-blue-100' : 
-                        business.status === 'pivoted' ? 'bg-yellow-100' : 'bg-red-100'}`}>
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center bg-white border-2 shadow-md
+                      ${business.status === 'active' ? 'border-green-500' : 
+                        business.status === 'sold' ? 'border-blue-500' : 
+                        business.status === 'pivoted' ? 'border-yellow-500' : 'border-red-500'}`}>
                       {business.logo?.startsWith('/') ? (
                         <img 
                           src={business.logo} 
                           alt={business.name}
-                          className="w-full h-full object-cover"
+                          className="w-7 h-7 rounded-full object-cover"
                         />
                       ) : (
-                        <span>{business.logo}</span>
+                        <span className="text-sm">{business.logo}</span>
                       )}
                     </div>
+                    {/* Status indicator dot */}
+                    <div className={`absolute -bottom-1 -right-1 w-3 h-3 rounded-full border-2 border-white
+                      ${business.status === 'active' ? 'bg-green-500' : 
+                        business.status === 'sold' ? 'bg-blue-500' : 
+                        business.status === 'pivoted' ? 'bg-yellow-500' : 'bg-red-500'}`} />
                   </div>
                   
-                  {/* Content */}
-                  <div className="flex-1 bg-white border border-slate-200 rounded-xl p-6 hover:shadow-lg transition-shadow">
+                  {/* Content Card */}
+                  <div className="flex-1 bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-200 border border-slate-100">
                     <div className="flex items-start justify-between">
-                      <div>
-                        <h3 className="text-xl font-semibold text-slate-900">{business.name}</h3>
-                        <p className="text-slate-600 mt-1">{business.tagline}</p>
-                        <div className="flex items-center gap-4 mt-3">
+                      <div className="flex-1">
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <h3 className="text-lg font-bold text-slate-900">{business.name}</h3>
+                            <p className="text-sm text-slate-600 mt-0.5">{business.tagline}</p>
+                          </div>
+                          <div className="text-right ml-4">
+                            <p className="text-xs text-slate-500 uppercase tracking-wider">Revenue</p>
+                            <p className="text-lg font-bold text-slate-900">
+                              €{(business.metrics.totalRevenue / 1000).toFixed(0)}K
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3 mt-3">
                           {getStatusBadge(business.status)}
-                          <span className="text-sm text-slate-500">
+                          <span className="text-xs text-slate-500">
                             {new Date(business.startDate).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' })}
                             {business.endDate && ` - ${new Date(business.endDate).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' })}`}
                           </span>
-                          <span className="text-sm text-slate-500 bg-slate-100 px-2 py-1 rounded-md">{business.industry}</span>
+                          <span className="text-xs text-slate-500 bg-slate-50 px-2 py-1 rounded-md">{business.industry}</span>
                         </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-sm text-slate-500">Revenue</p>
-                        <p className="text-xl font-bold text-slate-900">
-                          €{(business.metrics.totalRevenue / 1000).toFixed(0)}K
-                        </p>
                       </div>
                     </div>
                     

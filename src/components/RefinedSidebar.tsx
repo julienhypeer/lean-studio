@@ -7,7 +7,7 @@ import {
   ChevronLeft,
   ChevronRight,
   TrendingUp,
-  Briefcase,
+  HardHat,
   Search
 } from 'lucide-react';
 import { useState } from 'react';
@@ -97,18 +97,18 @@ export default function RefinedSidebar({
         {!isCollapsed && (
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-accent rounded-lg flex items-center justify-center">
-              <Briefcase className="w-4 h-4 text-white" />
+              <HardHat className="w-4 h-4 text-white" />
             </div>
             <div>
               <h1 className="text-sm font-semibold text-white">Lean Studio</h1>
-              <p className="text-xs text-slate-400">Track Record</p>
+              <p className="text-xs text-slate-400">Julien Etoke Mboma</p>
             </div>
           </div>
         )}
 
         {isCollapsed && (
           <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-accent rounded-lg flex items-center justify-center mx-auto">
-            <Briefcase className="w-4 h-4 text-white" />
+            <HardHat className="w-4 h-4 text-white" />
           </div>
         )}
 
