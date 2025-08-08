@@ -33,15 +33,6 @@ export default function Archives({ business }: ArchivesProps) {
     { id: 6, title: 'Exit réussi', type: 'success', description: 'Acquisition par un groupe leader du secteur' },
   ];
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('fr-FR', {
-      style: 'currency',
-      currency: 'EUR',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(value);
-  };
-
   return (
     <div className="p-8">
       {/* Header */}
@@ -135,7 +126,6 @@ export default function Archives({ business }: ArchivesProps) {
           )}
         </>
       )}
-
 
       {activeTab === 'timeline' && (
         <div className="relative">
