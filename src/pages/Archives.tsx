@@ -52,7 +52,7 @@ export default function Archives({ business }: ArchivesProps) {
           </div>
         </div>
 
-        {/* Tabs */}
+        {/* Tabs - Metrics tab removed as requested */}
         <div className="flex gap-4 mt-6 border-b border-gray-200">
           <button
             onClick={() => setActiveTab('gallery')}
@@ -125,7 +125,6 @@ export default function Archives({ business }: ArchivesProps) {
           )}
         </>
       )}
-
 
       {activeTab === 'timeline' && (
         <div className="relative">
