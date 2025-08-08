@@ -30,14 +30,9 @@ const logoMapping: Record<string, string> = {
   'SixthSense': 'sixthsense',
   'TimeTwoBe': 'timetwobe',
   'WaterBags': 'waterbags',
-  'Par ou commencer ?': 'par-ou-commencer',
-  'Dermassist': 'dermassist',
-  'Digital Mind': 'digital-mind',
   'Esport Logo': 'esport-logo',
   'ESport Logo': 'esport-logo',
-  'HipsterMyStyle': 'hipstermystyle',
-  'Infrastructure IA': 'infrastructure-ia',
-  'Trophy cosmetics': 'trophy-cosmetics'
+  'HipsterMyStyle': 'hipstermystyle'
 };
 
 // Fonction pour obtenir le chemin du logo - EXPORTED NOW
