@@ -7,7 +7,8 @@ interface ArchivesProps {
 }
 
 export default function Archives({ business }: ArchivesProps) {
-  const [activeTab, setActiveTab] = useState<'gallery' | 'metrics' | 'timeline'>('gallery');
+  // Force rebuild - métriques supprimés définitivement
+  const [activeTab, setActiveTab] = useState<'gallery' | 'timeline'>('gallery');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   // Example screenshots/photos - replace with actual business images
@@ -32,14 +33,6 @@ export default function Archives({ business }: ArchivesProps) {
     { id: 6, title: 'Exit réussi', type: 'success', description: 'Acquisition par un groupe leader du secteur' },
   ];
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('fr-FR', {
-      style: 'currency',
-      currency: 'EUR',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(value);
-  };
 
   return (
     <div className="p-8">
@@ -72,16 +65,6 @@ export default function Archives({ business }: ArchivesProps) {
             }`}
           >
             🖼️ Galerie
-          </button>
-          <button
-            onClick={() => setActiveTab('metrics')}
-            className={`px-4 py-2 font-medium transition-colors ${
-              activeTab === 'metrics'
-                ? 'text-accent border-b-2 border-accent'
-                : 'text-text-secondary hover:text-text-primary'
-            }`}
-          >
-            📊 Métriques Historiques
           </button>
           <button
             onClick={() => setActiveTab('timeline')}
@@ -145,63 +128,6 @@ export default function Archives({ business }: ArchivesProps) {
         </>
       )}
 
-      {activeTab === 'metrics' && (
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white rounded-card shadow-card p-6">
-              <h4 className="text-sm font-medium text-text-secondary mb-2">Durée de vie</h4>
-              <p className="text-2xl font-bold text-text-primary">
-                {business.endDate 
-                  ? `${Math.round((new Date(business.endDate).getTime() - new Date(business.startDate).getTime()) / (1000 * 60 * 60 * 24 * 30))} mois`
-                  : 'En cours'}
-              </p>
-            </div>
-            <div className="bg-white rounded-card shadow-card p-6">
-              <h4 className="text-sm font-medium text-text-secondary mb-2">ROI Total</h4>
-              <p className="text-2xl font-bold text-green-600">
-                {((business.metrics.totalRevenue - business.metrics.totalExpenses) / business.metrics.totalExpenses * 100).toFixed(0)}%
-              </p>
-            </div>
-            <div className="bg-white rounded-card shadow-card p-6">
-              <h4 className="text-sm font-medium text-text-secondary mb-2">Marge Nette</h4>
-              <p className="text-2xl font-bold text-text-primary">
-                {formatCurrency(business.metrics.totalRevenue - business.metrics.totalExpenses)}
-              </p>
-            </div>
-            <div className="bg-white rounded-card shadow-card p-6">
-              <h4 className="text-sm font-medium text-text-secondary mb-2">Efficacité CAC</h4>
-              <p className="text-2xl font-bold text-accent">
-                {(business.metrics.ltv / business.metrics.cac).toFixed(1)}x
-              </p>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-card shadow-card p-6">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">Évolution des métriques clés</h3>
-            <div className="space-y-4">
-              {business.monthlyData.slice(-6).map((month, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                  <span className="text-sm text-text-secondary">{month.month}</span>
-                  <div className="flex gap-8">
-                    <div>
-                      <span className="text-xs text-text-secondary">Revenue</span>
-                      <p className="font-semibold text-text-primary">{formatCurrency(month.revenue)}</p>
-                    </div>
-                    <div>
-                      <span className="text-xs text-text-secondary">Dépenses</span>
-                      <p className="font-semibold text-text-primary">{formatCurrency(month.expenses)}</p>
-                    </div>
-                    <div>
-                      <span className="text-xs text-text-secondary">Clients</span>
-                      <p className="font-semibold text-text-primary">{month.customers}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
 
       {activeTab === 'timeline' && (
         <div className="relative">

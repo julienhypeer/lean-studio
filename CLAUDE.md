@@ -1,0 +1,2 @@
+- le projet sur https://lean-studio-website.netlify.app/, ce n'est PAS nocodeur
+- utilise toujours le MCP github pour pouser, il est là : https://github.com/julienhypeer/lean-studio

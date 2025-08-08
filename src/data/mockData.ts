@@ -22,11 +22,18 @@ const logoMapping: Record<string, string> = {
   'SitAndGo': 'sitandgo',
   'SixthSense': 'sixthsense',
   'TimeTwoBe': 'timetwobe',
-  'WaterBags': 'waterbags'
+  'WaterBags': 'waterbags',
+  'Par ou commencer ?': 'par-ou-commencer',
+  'Dermassist': 'dermassist',
+  'Digital Mind': 'digital-mind',
+  'Esport Logo': 'esport-logo',
+  'HipsterMyStyle': 'hipstermystyle',
+  'Infrastructure IA': 'infrastructure-ia',
+  'Trophy cosmetics': 'trophy-cosmetics'
 };
 
 // Fonction pour obtenir le chemin du logo
-function getLogoPath(businessName: string, size: 'thumb' | 'full'): string | undefined {
+export function getLogoPath(businessName: string, size: 'thumb' | 'full'): string | undefined {
   const logoKey = logoMapping[businessName];
   if (!logoKey) return undefined;
   
@@ -76,7 +83,8 @@ export const mockBusinesses: Business[] = [
     id: '2',
     name: 'Dermassist',
     tagline: 'Consultations dermatologiques par IA',
-    logo: '🔬',
+    logo: getLogoPath('Dermassist', 'thumb') || '🔬',
+    logoFull: getLogoPath('Dermassist', 'full'),
     status: 'active',
     startDate: '2025-01-01',
     industry: 'Santé & IA',
@@ -685,7 +693,8 @@ export const mockBusinesses: Business[] = [
     id: '20',
     name: 'ESport Logo',
     tagline: 'Création logos pour équipes eSport',
-    logo: '🎨',
+    logo: getLogoPath('Esport Logo', 'thumb') || '🎨',
+    logoFull: getLogoPath('Esport Logo', 'full'),
     status: 'closed',
     startDate: '2016-01-01',
     endDate: '2017-06-01',

@@ -8,7 +8,7 @@ interface ModernArchivesProps {
 }
 
 export default function ModernArchives({ business }: ModernArchivesProps) {
-  const [activeTab, setActiveTab] = useState<'gallery' | 'metrics' | 'timeline'>('gallery');
+  const [activeTab, setActiveTab] = useState<'gallery' | 'timeline'>('gallery');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   // Example screenshots/photos - replace with actual business images
@@ -33,14 +33,6 @@ export default function ModernArchives({ business }: ModernArchivesProps) {
     { id: 6, title: 'Exit réussi', type: 'success', description: 'Acquisition par un groupe leader du secteur' },
   ];
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('fr-FR', {
-      style: 'currency',
-      currency: 'EUR',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(value);
-  };
 
   return (
     <div className="min-h-screen bg-slate-50 p-6">
@@ -79,16 +71,6 @@ export default function ModernArchives({ business }: ModernArchivesProps) {
             }`}
           >
             Galerie
-          </button>
-          <button
-            onClick={() => setActiveTab('metrics')}
-            className={`px-4 py-2 text-xs font-medium uppercase tracking-wider rounded-md transition-all ${
-              activeTab === 'metrics'
-                ? 'bg-slate-900 text-white'
-                : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
-            }`}
-          >
-            Métriques
           </button>
           <button
             onClick={() => setActiveTab('timeline')}
@@ -169,69 +151,6 @@ export default function ModernArchives({ business }: ModernArchivesProps) {
           </motion.div>
         )}
 
-        {activeTab === 'metrics' && (
-          <motion.div
-            key="metrics"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 20 }}
-            className="space-y-4"
-          >
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              <div className="bg-white border border-slate-200 rounded-lg p-4">
-                <h4 className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Durée</h4>
-                <p className="text-xl font-semibold text-slate-900">
-                  {business.endDate 
-                    ? `${Math.round((new Date(business.endDate).getTime() - new Date(business.startDate).getTime()) / (1000 * 60 * 60 * 24 * 30))} mois`
-                    : 'En cours'}
-                </p>
-              </div>
-              <div className="bg-white border border-slate-200 rounded-lg p-4">
-                <h4 className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">ROI Total</h4>
-                <p className="text-xl font-semibold text-green-600">
-                  {((business.metrics.totalRevenue - business.metrics.totalExpenses) / business.metrics.totalExpenses * 100).toFixed(0)}%
-                </p>
-              </div>
-              <div className="bg-white border border-slate-200 rounded-lg p-4">
-                <h4 className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Marge Nette</h4>
-                <p className="text-xl font-semibold text-slate-900">
-                  {formatCurrency(business.metrics.totalRevenue - business.metrics.totalExpenses)}
-                </p>
-              </div>
-              <div className="bg-white border border-slate-200 rounded-lg p-4">
-                <h4 className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">CAC Ratio</h4>
-                <p className="text-xl font-semibold text-orange-600">
-                  {(business.metrics.ltv / business.metrics.cac).toFixed(1)}x
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-white border border-slate-200 rounded-xl p-5">
-              <h3 className="text-sm font-semibold text-slate-900 mb-4 uppercase tracking-wider">Évolution Mensuelle</h3>
-              <div className="space-y-2">
-                {business.monthlyData.slice(-6).map((month, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-                    <span className="text-xs text-slate-500 font-medium">{month.month}</span>
-                    <div className="flex gap-6">
-                      <div>
-                        <span className="text-xs text-slate-400">Revenue</span>
-                        <p className="text-sm font-semibold text-slate-800">{formatCurrency(month.revenue)}</p>
-                      </div>
-                      <div>
-                        <span className="text-xs text-slate-400">Dépenses</span>
-                        <p className="text-sm font-semibold text-slate-800">{formatCurrency(month.expenses)}</p>
-                      </div>
-                      <div>
-                        <span className="text-xs text-slate-400">Clients</span>
-                        <p className="text-sm font-semibold text-slate-800">{month.customers}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        )}
 
         {activeTab === 'timeline' && (
           <motion.div
