@@ -7,7 +7,7 @@ interface ArchivesProps {
 }
 
 export default function Archives({ business }: ArchivesProps) {
-  // FORCE REBUILD 2025-08-08 - Métriques supprimées définitivement
+  // ✅ CRITICAL FIX 2025-08-08: Métriques supprimées définitivement - 2 onglets seulement
   const [activeTab, setActiveTab] = useState<'gallery' | 'timeline'>('gallery');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
@@ -53,7 +53,7 @@ export default function Archives({ business }: ArchivesProps) {
           </div>
         </div>
 
-        {/* Tabs - MÉTRIQUES SUPPRIMÉES DÉFINITIVEMENT */}
+        {/* ONLY 2 TABS: Gallery & Timeline - Metrics completely removed */}
         <div className="flex gap-4 mt-6 border-b border-gray-200">
           <button
             onClick={() => setActiveTab('gallery')}
@@ -78,7 +78,7 @@ export default function Archives({ business }: ArchivesProps) {
         </div>
       </div>
 
-      {/* Content */}
+      {/* Gallery Content */}
       {activeTab === 'gallery' && (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -127,6 +127,7 @@ export default function Archives({ business }: ArchivesProps) {
         </>
       )}
 
+      {/* Timeline Content */}
       {activeTab === 'timeline' && (
         <div className="relative">
           <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-300"></div>
