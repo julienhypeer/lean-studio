@@ -33,7 +33,8 @@ const logoMapping: Record<string, string> = {
   'Esport Logo': 'esport-logo',
   'ESport Logo': 'esport-logo',
   'HipsterMyStyle': 'hipstermystyle',
-  'Jumpbox': 'jumpbox'
+  'Jumpbox': 'jumpbox',
+  'Relight': 'relight'
 };
 
 // Fonction pour obtenir le chemin du logo - EXPORTED NOW
@@ -323,7 +324,8 @@ export const mockBusinesses: Business[] = [
     id: '9',
     name: 'Relight',
     tagline: 'Automatisation services énergie',
-    logo: '⚡',
+    logo: getLogoPath('Relight', 'thumb') || '⚡',
+    logoFull: getLogoPath('Relight', 'full'),
     status: 'active',
     startDate: '2023-01-01',
     industry: 'Énergie & Automatisation',
