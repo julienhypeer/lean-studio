@@ -8,7 +8,8 @@ import {
   ChevronRight,
   TrendingUp,
   HardHat,
-  Search
+  Search,
+  Lock
 } from 'lucide-react';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -66,6 +67,11 @@ export default function RefinedSidebar({
       icon: Trophy, 
       label: 'Trophées', 
       path: '/moments-forts'
+    },
+    { 
+      icon: Lock, 
+      label: 'Demo Locked', 
+      path: '/locked-demo'
     },
   ];
 
