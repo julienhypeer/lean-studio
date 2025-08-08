@@ -8,7 +8,6 @@ interface ModernArchivesProps {
 }
 
 export default function ModernArchives({ business }: ModernArchivesProps) {
-  // ✅ ONLY 2 TABS: gallery and timeline - metrics completely removed
   const [activeTab, setActiveTab] = useState<'gallery' | 'timeline'>('gallery');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
@@ -33,6 +32,7 @@ export default function ModernArchives({ business }: ModernArchivesProps) {
     { id: 5, title: 'Crise de croissance', type: 'warning', description: 'Problèmes de scalabilité technique résolus' },
     { id: 6, title: 'Exit réussi', type: 'success', description: 'Acquisition par un groupe leader du secteur' },
   ];
+
 
   return (
     <div className="min-h-screen bg-slate-50 p-6">
@@ -60,7 +60,7 @@ export default function ModernArchives({ business }: ModernArchivesProps) {
           </div>
         </div>
 
-        {/* ONLY 2 TABS: Gallery & Timeline - Metrics completely removed */}
+        {/* Tabs */}
         <div className="flex gap-1 mt-4 bg-white border border-slate-200 rounded-lg p-1">
           <button
             onClick={() => setActiveTab('gallery')}
@@ -151,6 +151,7 @@ export default function ModernArchives({ business }: ModernArchivesProps) {
           </motion.div>
         )}
 
+
         {activeTab === 'timeline' && (
           <motion.div
             key="timeline"
@@ -184,7 +185,7 @@ export default function ModernArchives({ business }: ModernArchivesProps) {
                 </motion.div>
               ))}
             </div>
-          </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>
