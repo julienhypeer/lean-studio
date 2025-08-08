@@ -83,4 +83,4 @@ MIT
 
 ## 👨‍💻 Auteur
 
-Développé avec ❤️ pour les entrepreneurs Lean
+Développé avec ❤️ pour les entrepreneurs Lean# Fixed Dashboard Structure
