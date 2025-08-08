@@ -63,11 +63,14 @@ export default function HeroTerminal() {
     <AuroraBackground>
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4">
         <div className="text-center animate-fadeIn">
-          <h1 className="text-6xl md:text-7xl font-bold text-black mb-6">
+          <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-black to-black/80">
             Lean Studio
           </h1>
-          <p className="text-xl md:text-2xl text-gray-700 mb-10 max-w-2xl mx-auto">
+          <p className="text-xl md:text-2xl text-gray-700 mb-4 max-w-2xl mx-auto">
             4 startups lancées, 1 exit réussi, des leçons invaluables
+          </p>
+          <p className="text-lg md:text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
+            Think. <strong>Build.</strong> Measure. <strong>Learn.</strong> Repeat.
           </p>
           <button
             onClick={handleExplore}
@@ -101,11 +104,11 @@ export default function HeroTerminal() {
                             <img 
                               src={logo.logo} 
                               alt={logo.name}
-                              className="w-12 h-12 mb-1 grayscale hover:grayscale-0 transition-all duration-300 object-cover rounded-lg"
+                              className="w-20 h-20 mb-2 grayscale hover:grayscale-0 transition-all duration-300 object-cover rounded-lg"
                             />
                           ) : (
-                            <div className="w-12 h-12 mb-1 bg-gray-200 rounded-lg flex items-center justify-center">
-                              <span className="text-gray-500 text-xs">?</span>
+                            <div className="w-20 h-20 mb-2 bg-gray-200 rounded-lg flex items-center justify-center">
+                              <span className="text-gray-500 text-sm">?</span>
                             </div>
                           )}
                           <span className="text-xs text-gray-600 font-medium opacity-70">
