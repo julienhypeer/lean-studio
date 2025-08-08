@@ -73,33 +73,33 @@ export default function Portfolio() {
         className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white"
       >
         <div className="absolute inset-0 bg-slate-900/20"></div>
-        <div className="relative px-6 py-16">
+        <div className="relative px-4 sm:px-6 py-12 sm:py-16">
           <div className="max-w-6xl mx-auto">
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
-                <Clock className="w-8 h-8 text-white" />
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
+                <Clock className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
               </div>
               <div>
-                <h1 className="text-4xl font-bold">Timeline Portfolio</h1>
-                <p className="text-xl text-slate-300 mt-1">Parcours entrepreneurial • Lean Studio</p>
+                <h1 className="text-2xl sm:text-4xl font-bold">Timeline Portfolio</h1>
+                <p className="text-sm sm:text-xl text-slate-300 mt-1">Parcours entrepreneurial • Lean Studio</p>
               </div>
             </div>
             
-            <p className="text-lg text-slate-200 mt-6 max-w-3xl leading-relaxed">
+            <p className="text-base sm:text-lg text-slate-200 mt-4 sm:mt-6 max-w-3xl leading-relaxed">
               Découvrez mon parcours entrepreneurial à travers {mockBusinesses.length} ventures lancées 
               avec la méthodologie Lean Startup. De l'idéation à l'exit, chaque projet raconte une histoire 
               d'innovation, d'apprentissage et de croissance.
             </p>
 
-            <div className="flex gap-4 mt-8">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-6 sm:mt-8">
               <button 
                 onClick={() => navigate('/dashboard')}
-                className="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-semibold transition-colors flex items-center gap-2"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-semibold transition-colors flex items-center justify-center gap-2"
               >
                 Explorer le Dashboard
                 <ArrowRight className="w-5 h-5" />
               </button>
-              <button className="px-6 py-3 bg-white/10 backdrop-blur hover:bg-white/20 text-white rounded-lg font-semibold transition-colors">
+              <button className="px-4 sm:px-6 py-2.5 sm:py-3 bg-white/10 backdrop-blur hover:bg-white/20 text-white rounded-lg font-semibold transition-colors">
                 Voir les Trophées
               </button>
             </div>
@@ -112,13 +112,13 @@ export default function Portfolio() {
       </motion.div>
 
       {/* Stats Section */}
-      <div className="px-6 -mt-8 relative z-10">
+      <div className="px-4 sm:px-6 -mt-8 relative z-10">
         <div className="max-w-6xl mx-auto">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
+            className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"
           >
             {stats.map((stat, index) => (
               <motion.div 
@@ -144,15 +144,15 @@ export default function Portfolio() {
       </div>
 
       {/* Timeline Section */}
-      <div className="px-6 py-16">
+      <div className="px-4 sm:px-6 py-12 sm:py-16">
         <div className="max-w-6xl mx-auto">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-3xl font-bold text-slate-900 mb-8 flex items-center gap-3"
+            className="text-2xl sm:text-3xl font-bold text-slate-900 mb-6 sm:mb-8 flex items-center gap-3"
           >
-            <Clock className="w-8 h-8 text-orange-500" />
+            <Clock className="w-6 h-6 sm:w-8 sm:h-8 text-orange-500" />
             Timeline des Projets
           </motion.h2>
           
@@ -211,8 +211,8 @@ export default function Portfolio() {
                       </div>
                     </div>
                     
-                    {/* Key metrics */}
-                    <div className="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-slate-200">
+                    {/* Key metrics - Mobile responsive */}
+                    <div className="grid grid-cols-3 gap-2 sm:gap-4 mt-4 pt-4 border-t border-slate-200">
                       <div className="bg-slate-50 rounded-lg p-3">
                         <p className="text-xs text-slate-500 uppercase tracking-wider">Clients</p>
                         <p className="text-sm font-semibold text-slate-900">{business.metrics.totalCustomers.toLocaleString()}</p>
@@ -251,7 +251,7 @@ export default function Portfolio() {
       </div>
 
       {/* Business Grid Section */}
-      <div className="px-6 py-16 bg-slate-100">
+      <div className="px-4 sm:px-6 py-12 sm:py-16 bg-slate-100">
         <div className="max-w-6xl mx-auto">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -259,7 +259,7 @@ export default function Portfolio() {
             transition={{ delay: 0.4 }}
             className="flex items-center justify-between mb-8"
           >
-            <h2 className="text-3xl font-bold text-slate-900">Portfolio Détaillé</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">Portfolio Détaillé</h2>
             <button 
               onClick={() => navigate('/dashboard')}
               className="text-orange-500 hover:text-orange-600 font-medium flex items-center gap-2 transition-colors"
@@ -321,7 +321,7 @@ export default function Portfolio() {
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4">
                   <div className="bg-slate-50 rounded-lg p-3">
                     <div className="flex items-center gap-2 text-slate-500 mb-1">
                       <TrendingUp className="w-4 h-4" />

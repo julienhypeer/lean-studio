@@ -45,18 +45,18 @@ export default function ModernMetricCard({
   return (
     <motion.div 
       whileHover={{ y: -2 }}
-      className="bg-white border border-slate-200 rounded-xl p-4 hover:shadow-md transition-all duration-200"
+      className="bg-white border border-slate-200 rounded-xl p-3 sm:p-4 hover:shadow-md transition-all duration-200"
     >
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="p-1.5 bg-slate-50 rounded-lg">
-              <Icon className={`w-4 h-4 ${iconColor}`} />
+          <div className="flex items-center gap-1.5 sm:gap-2 mb-2">
+            <div className="p-1 sm:p-1.5 bg-slate-50 rounded-lg">
+              <Icon className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${iconColor}`} />
             </div>
-            <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">{title}</p>
+            <p className="text-xs font-medium text-slate-500 uppercase tracking-wider truncate">{title}</p>
           </div>
           <div className="mt-2">
-            <p className="text-2xl font-semibold text-slate-900">{value}</p>
+            <p className="text-xl sm:text-2xl font-semibold text-slate-900">{value}</p>
             {subtitle && (
               <p className="text-xs text-slate-400 mt-1">{subtitle}</p>
             )}
@@ -64,7 +64,7 @@ export default function ModernMetricCard({
           {change && (
             <div className={`flex items-center gap-1 mt-2 text-xs ${getChangeColor()}`}>
               <span className="font-medium">{getChangeSymbol()} {change}</span>
-              <span className="text-slate-400">vs mois dernier</span>
+              <span className="text-slate-400 hidden sm:inline">vs mois dernier</span>
             </div>
           )}
         </div>

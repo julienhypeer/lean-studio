@@ -81,10 +81,10 @@ export default function HeroTerminal() {
           </button>
         </div>
 
-        {/* Logo Carousel with Fade Effect */}
-        <div className="mt-20 w-full max-w-6xl mx-auto">
+        {/* Logo Carousel with Fade Effect - Mobile optimized */}
+        <div className="mt-12 sm:mt-20 w-full max-w-6xl mx-auto">
           <div className="relative h-20 flex items-center justify-center">
-            <div className="grid grid-cols-6 gap-8 w-full max-w-4xl mx-auto">
+            <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 sm:gap-8 w-full max-w-4xl mx-auto">
               {logos.map((logo, index) => (
                 <div key={index} className="flex items-center justify-center h-16 relative">
                   <AnimatePresence mode="wait">
@@ -104,14 +104,14 @@ export default function HeroTerminal() {
                             <img 
                               src={logo.logo} 
                               alt={logo.name}
-                              className="w-20 h-20 mb-2 grayscale hover:grayscale-0 transition-all duration-300 object-cover rounded-lg"
+                              className="w-16 h-16 sm:w-20 sm:h-20 mb-1 sm:mb-2 grayscale hover:grayscale-0 transition-all duration-300 object-cover rounded-lg"
                             />
                           ) : (
-                            <div className="w-20 h-20 mb-2 bg-gray-200 rounded-lg flex items-center justify-center">
-                              <span className="text-gray-500 text-sm">?</span>
+                            <div className="w-16 h-16 sm:w-20 sm:h-20 mb-1 sm:mb-2 bg-gray-200 rounded-lg flex items-center justify-center">
+                              <span className="text-gray-500 text-xs sm:text-sm">?</span>
                             </div>
                           )}
-                          <span className="text-xs text-gray-600 font-medium opacity-70">
+                          <span className="text-xs text-gray-600 font-medium opacity-70 hidden sm:block">
                             {logo.name}
                           </span>
                         </div>
