@@ -7,6 +7,7 @@ interface ArchivesProps {
 }
 
 export default function Archives({ business }: ArchivesProps) {
+  // FORCE REBUILD 2025-08-08 - Métriques supprimées définitivement
   const [activeTab, setActiveTab] = useState<'gallery' | 'timeline'>('gallery');
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
@@ -32,6 +33,15 @@ export default function Archives({ business }: ArchivesProps) {
     { id: 6, title: 'Exit réussi', type: 'success', description: 'Acquisition par un groupe leader du secteur' },
   ];
 
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('fr-FR', {
+      style: 'currency',
+      currency: 'EUR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(value);
+  };
+
   return (
     <div className="p-8">
       {/* Header */}
@@ -52,7 +62,7 @@ export default function Archives({ business }: ArchivesProps) {
           </div>
         </div>
 
-        {/* Tabs - Metrics tab removed as requested */}
+        {/* Tabs - MÉTRIQUES SUPPRIMÉES DÉFINITIVEMENT */}
         <div className="flex gap-4 mt-6 border-b border-gray-200">
           <button
             onClick={() => setActiveTab('gallery')}
@@ -125,6 +135,7 @@ export default function Archives({ business }: ArchivesProps) {
           )}
         </>
       )}
+
 
       {activeTab === 'timeline' && (
         <div className="relative">
