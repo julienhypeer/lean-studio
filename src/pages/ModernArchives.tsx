@@ -43,20 +43,18 @@ export default function ModernArchives({ business }: ModernArchivesProps) {
         className="mb-6"
       >
         <div className="bg-white border border-slate-200 rounded-xl p-5">
-          <div className="flex items-center gap-3">
-            {business.logo?.startsWith('/') ? (
+          <div className="flex flex-col items-center text-center">
+            {business.logoFull || business.logo?.startsWith('/') ? (
               <img 
-                src={business.logo} 
+                src={business.logoFull || business.logo} 
                 alt={business.name}
-                className="w-10 h-10 rounded-lg object-cover"
+                className="w-32 h-32 rounded-lg object-cover mb-3"
               />
             ) : (
-              <span className="text-3xl">{business.logo}</span>
+              <span className="text-6xl mb-3">{business.logo}</span>
             )}
-            <div>
-              <h1 className="text-2xl font-semibold text-slate-900">Archives - {business.name}</h1>
-              <p className="text-sm text-slate-500">Documentation et historique du projet</p>
-            </div>
+            <h1 className="text-3xl font-bold text-slate-900 mb-2">Archives - {business.name}</h1>
+            <p className="text-base text-slate-600">Documentation et historique du projet</p>
           </div>
         </div>
 

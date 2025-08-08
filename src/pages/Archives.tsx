@@ -37,20 +37,18 @@ export default function Archives({ business }: ArchivesProps) {
     <div className="p-8">
       {/* Header */}
       <div className="mb-8">
-        <div className="flex items-center gap-3 mb-4">
-          {business.logo?.startsWith('/') ? (
+        <div className="flex flex-col items-center text-center mb-4">
+          {business.logoFull || business.logo?.startsWith('/') ? (
             <img 
-              src={business.logo} 
+              src={business.logoFull || business.logo} 
               alt={business.name}
-              className="w-12 h-12 rounded-lg object-cover"
+              className="w-32 h-32 rounded-lg object-cover mb-3"
             />
           ) : (
-            <span className="text-4xl">{business.logo}</span>
+            <span className="text-6xl mb-3">{business.logo}</span>
           )}
-          <div>
-            <h1 className="text-3xl font-bold text-text-primary">Archives - {business.name}</h1>
-            <p className="text-text-secondary">Documentation et historique du projet</p>
-          </div>
+          <h1 className="text-3xl font-bold text-text-primary mb-2">Archives - {business.name}</h1>
+          <p className="text-text-secondary">Documentation et historique du projet</p>
         </div>
 
         {/* ONLY 2 TABS: Gallery & Timeline - Metrics completely removed */}

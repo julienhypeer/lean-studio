@@ -61,23 +61,19 @@ export default function Dashboard({ business }: DashboardProps) {
     <div className="p-8">
       {/* Header */}
       <div className="mb-8">
-        <div>
-          <div className="flex items-center gap-3 mb-2">
-            {business.logo?.startsWith('/') ? (
-              <img 
-                src={business.logo} 
-                alt={business.name}
-                className="w-12 h-12 rounded-lg object-cover"
-              />
-            ) : (
-              <span className="text-4xl">{business.logo}</span>
-            )}
-            <div>
-              <h1 className="text-3xl font-bold text-text-primary">{business.name}</h1>
-              <p className="text-text-secondary">{business.tagline}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4 mt-4">
+        <div className="flex flex-col items-center text-center">
+          {business.logoFull || business.logo?.startsWith('/') ? (
+            <img 
+              src={business.logoFull || business.logo} 
+              alt={business.name}
+              className="w-32 h-32 rounded-lg object-cover mb-3"
+            />
+          ) : (
+            <span className="text-6xl mb-3">{business.logo}</span>
+          )}
+          <h1 className="text-3xl font-bold text-text-primary mb-2">{business.name}</h1>
+          <p className="text-text-secondary mb-3">{business.tagline}</p>
+          <div className="flex items-center gap-4">
             {getStatusBadge()}
             <span className="text-sm text-text-secondary">
               {business.industry}
