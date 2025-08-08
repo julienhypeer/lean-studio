@@ -26,9 +26,9 @@ const logoMapping: Record<string, string> = {
 };
 
 // Fonction pour obtenir le chemin du logo
-function getLogoPath(businessName: string, size: 'thumb' | 'full'): string | null {
+function getLogoPath(businessName: string, size: 'thumb' | 'full'): string | undefined {
   const logoKey = logoMapping[businessName];
-  if (!logoKey) return null;
+  if (!logoKey) return undefined;
   
   const sizeMap = {
     'thumb': '100',
