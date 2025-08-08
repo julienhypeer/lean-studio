@@ -98,9 +98,17 @@ export default function ModernSidebar({ currentBusiness, onBusinessChange, busin
               className="w-full flex items-center justify-between p-3 bg-white/5 backdrop-blur-sm rounded-xl hover:bg-white/10 transition-all duration-300 border border-white/10"
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-white/20 to-white/5 rounded-lg flex items-center justify-center text-2xl backdrop-blur-sm">
-                  {currentBusinessData?.logo}
-                </div>
+                {currentBusinessData?.logo?.startsWith('/') ? (
+                  <img 
+                    src={currentBusinessData.logo} 
+                    alt={currentBusinessData.name}
+                    className="w-10 h-10 rounded-lg object-cover bg-gradient-to-br from-white/20 to-white/5"
+                  />
+                ) : (
+                  <div className="w-10 h-10 bg-gradient-to-br from-white/20 to-white/5 rounded-lg flex items-center justify-center text-2xl backdrop-blur-sm">
+                    {currentBusinessData?.logo}
+                  </div>
+                )}
                 <div className="text-left">
                   <div className="text-white font-semibold text-sm">
                     {currentBusinessData?.name}
@@ -129,9 +137,17 @@ export default function ModernSidebar({ currentBusiness, onBusinessChange, busin
                       }}
                       className="w-full flex items-center gap-3 p-3 transition-colors"
                     >
-                      <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center text-xl">
-                        {business.logo}
-                      </div>
+                      {business.logo?.startsWith('/') ? (
+                        <img 
+                          src={business.logo} 
+                          alt={business.name}
+                          className="w-8 h-8 rounded-lg object-cover bg-white/10"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center text-xl">
+                          {business.logo}
+                        </div>
+                      )}
                       <span className="text-gray-200 text-sm font-medium">{business.name}</span>
                       {business.id === currentBusiness && (
                         <div className="ml-auto w-2 h-2 bg-accent rounded-full"></div>

@@ -110,7 +110,15 @@ export default function RefinedSidebar({ currentBusiness, onBusinessChange, busi
             title={isCollapsed ? currentBusinessData?.name : undefined}
           >
             <div className={`flex items-center ${isCollapsed ? '' : 'gap-2.5'}`}>
-              <span className="text-lg">{currentBusinessData?.logo}</span>
+              {currentBusinessData?.logo?.startsWith('/') ? (
+                <img 
+                  src={currentBusinessData.logo} 
+                  alt={currentBusinessData.name}
+                  className="w-6 h-6 rounded object-cover"
+                />
+              ) : (
+                <span className="text-lg">{currentBusinessData?.logo}</span>
+              )}
               {!isCollapsed && (
                 <div className="text-left">
                   <div className="text-sm font-medium text-white">
@@ -151,7 +159,15 @@ export default function RefinedSidebar({ currentBusiness, onBusinessChange, busi
                     }}
                     className="w-full flex items-center gap-2.5 px-3 py-2.5 hover:bg-slate-700 transition-colors"
                   >
-                    <span className="text-base">{business.logo}</span>
+                    {business.logo?.startsWith('/') ? (
+                      <img 
+                        src={business.logo} 
+                        alt={business.name}
+                        className="w-5 h-5 rounded object-cover"
+                      />
+                    ) : (
+                      <span className="text-base">{business.logo}</span>
+                    )}
                     <span className="text-sm text-slate-200">{business.name}</span>
                     {business.id === currentBusiness && (
                       <div className="ml-auto w-1.5 h-1.5 bg-accent rounded-full"></div>

@@ -48,7 +48,15 @@ export default function Sidebar({ currentBusiness, onBusinessChange, businesses 
             className="w-full flex items-center justify-between p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
           >
             <div className="flex items-center gap-3">
-              <span className="text-2xl">{currentBusinessData?.logo}</span>
+              {currentBusinessData?.logo?.startsWith('/') ? (
+                <img 
+                  src={currentBusinessData.logo} 
+                  alt={currentBusinessData.name}
+                  className="w-8 h-8 rounded object-cover"
+                />
+              ) : (
+                <span className="text-2xl">{currentBusinessData?.logo}</span>
+              )}
               <div className="text-left">
                 <div className="text-white font-semibold text-sm">
                   {currentBusinessData?.name}
@@ -70,7 +78,15 @@ export default function Sidebar({ currentBusiness, onBusinessChange, businesses 
                   }}
                   className="w-full flex items-center gap-3 p-3 hover:bg-gray-50 transition-colors"
                 >
-                  <span className="text-xl">{business.logo}</span>
+                  {business.logo?.startsWith('/') ? (
+                    <img 
+                      src={business.logo} 
+                      alt={business.name}
+                      className="w-6 h-6 rounded object-cover"
+                    />
+                  ) : (
+                    <span className="text-xl">{business.logo}</span>
+                  )}
                   <span className="text-gray-700 text-sm font-medium">{business.name}</span>
                 </button>
               ))}

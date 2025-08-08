@@ -63,7 +63,15 @@ export default function Dashboard({ business }: DashboardProps) {
       <div className="mb-8">
         <div>
           <div className="flex items-center gap-3 mb-2">
-            <span className="text-4xl">{business.logo}</span>
+            {business.logo?.startsWith('/') ? (
+              <img 
+                src={business.logo} 
+                alt={business.name}
+                className="w-12 h-12 rounded-lg object-cover"
+              />
+            ) : (
+              <span className="text-4xl">{business.logo}</span>
+            )}
             <div>
               <h1 className="text-3xl font-bold text-text-primary">{business.name}</h1>
               <p className="text-text-secondary">{business.tagline}</p>

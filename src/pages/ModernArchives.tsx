@@ -52,7 +52,15 @@ export default function ModernArchives({ business }: ModernArchivesProps) {
       >
         <div className="bg-white border border-slate-200 rounded-xl p-5">
           <div className="flex items-center gap-3">
-            <span className="text-3xl">{business.logo}</span>
+            {business.logo?.startsWith('/') ? (
+              <img 
+                src={business.logo} 
+                alt={business.name}
+                className="w-10 h-10 rounded-lg object-cover"
+              />
+            ) : (
+              <span className="text-3xl">{business.logo}</span>
+            )}
             <div>
               <h1 className="text-2xl font-semibold text-slate-900">Archives - {business.name}</h1>
               <p className="text-sm text-slate-500">Documentation et historique du projet</p>

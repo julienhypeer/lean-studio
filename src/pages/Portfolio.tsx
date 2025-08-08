@@ -172,11 +172,19 @@ export default function Portfolio() {
                 >
                   {/* Timeline dot */}
                   <div className="relative z-10">
-                    <div className={`w-16 h-16 rounded-xl flex items-center justify-center text-2xl border-4 border-white shadow-lg
+                    <div className={`w-16 h-16 rounded-xl flex items-center justify-center text-2xl border-4 border-white shadow-lg overflow-hidden
                       ${business.status === 'active' ? 'bg-green-100' : 
                         business.status === 'sold' ? 'bg-blue-100' : 
                         business.status === 'pivoted' ? 'bg-yellow-100' : 'bg-red-100'}`}>
-                      {business.logo}
+                      {business.logo?.startsWith('/') ? (
+                        <img 
+                          src={business.logo} 
+                          alt={business.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span>{business.logo}</span>
+                      )}
                     </div>
                   </div>
                   
@@ -273,7 +281,15 @@ export default function Portfolio() {
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <span className="text-3xl">{business.logo}</span>
+                    {business.logo?.startsWith('/') ? (
+                      <img 
+                        src={business.logo} 
+                        alt={business.name}
+                        className="w-12 h-12 rounded-lg object-cover"
+                      />
+                    ) : (
+                      <span className="text-3xl">{business.logo}</span>
+                    )}
                     <div>
                       <h3 className="text-lg font-semibold text-slate-900 group-hover:text-orange-500 transition-colors">
                         {business.name}

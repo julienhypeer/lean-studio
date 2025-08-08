@@ -1,5 +1,43 @@
 import { Business } from '../types/business';
 
+// Mapping des logos disponibles
+const logoMapping: Record<string, string> = {
+  'Nocodeur': 'nocodeur',
+  'Hematokey': 'hematokey',
+  'Maskimize': 'maskimize',
+  '11LEVEN': '11eleven',
+  'Agence marketing digital': 'agence-marketing-digital',
+  'Anita Conti': 'anita-conti',
+  'Check That Curves': 'check-that-curves',
+  'EBusiness Maker': 'ebusiness-maker',
+  'MyPad': 'mypad',
+  'Goldify': 'goldify',
+  'Cloud Development': 'cloud-development',
+  'Battle Ropes': 'battle-ropes',
+  'FireCloud': 'firecloud',
+  'Lead Generation': 'lead-generation',
+  'OQTF': 'oqtf',
+  'PushTheButton': 'pushthebutton',
+  'Rachat-Squat': 'rachat-squat',
+  'SitAndGo': 'sitandgo',
+  'SixthSense': 'sixthsense',
+  'TimeTwoBe': 'timetwobe',
+  'WaterBags': 'waterbags'
+};
+
+// Fonction pour obtenir le chemin du logo
+function getLogoPath(businessName: string, size: 'thumb' | 'full'): string | null {
+  const logoKey = logoMapping[businessName];
+  if (!logoKey) return null;
+  
+  const sizeMap = {
+    'thumb': '100',
+    'full': '512'
+  };
+  
+  return `/images/projects/${size === 'thumb' ? 'thumbnails' : 'full'}/${logoKey}-${sizeMap[size]}.png`;
+}
+
 export const mockBusinesses: Business[] = [
   // 2025 - Projets actifs
   {
@@ -70,7 +108,8 @@ export const mockBusinesses: Business[] = [
     id: '3',
     name: 'Hematokey',
     tagline: 'Explications de bilans sanguins IA',
-    logo: '🩸',
+    logo: getLogoPath('Hematokey', 'thumb') || '🩸',
+    logoFull: getLogoPath('Hematokey', 'full'),
     status: 'active',
     startDate: '2025-01-01',
     industry: 'Santé & IA',
@@ -102,7 +141,8 @@ export const mockBusinesses: Business[] = [
     id: '4',
     name: 'Maskimize',
     tagline: 'Paris sportifs augmentés par IA',
-    logo: '🎯',
+    logo: getLogoPath('Maskimize', 'thumb') || '🎯',
+    logoFull: getLogoPath('Maskimize', 'full'),
     status: 'active',
     startDate: '2025-01-01',
     industry: 'Sport & IA',
@@ -134,7 +174,8 @@ export const mockBusinesses: Business[] = [
     id: '5',
     name: 'Nocodeur',
     tagline: 'Plateforme d\'automatisations clé en main',
-    logo: '⚡',
+    logo: getLogoPath('Nocodeur', 'thumb') || '⚡',
+    logoFull: getLogoPath('Nocodeur', 'full'),
     status: 'active',
     startDate: '2025-01-01',
     industry: 'No-Code & Automatisation',
@@ -401,7 +442,8 @@ export const mockBusinesses: Business[] = [
     id: '13',
     name: '11LEVEN',
     tagline: 'Conseil en investissement',
-    logo: '💎',
+    logo: getLogoPath('11LEVEN', 'thumb') || '💎',
+    logoFull: getLogoPath('11LEVEN', 'full'),
     status: 'closed',
     startDate: '2021-03-01',
     endDate: '2021-12-01',
@@ -436,7 +478,8 @@ export const mockBusinesses: Business[] = [
     id: '14',
     name: 'Agence marketing digital',
     tagline: 'Formation création agences SMMA',
-    logo: '📱',
+    logo: getLogoPath('Agence marketing digital', 'thumb') || '📱',
+    logoFull: getLogoPath('Agence marketing digital', 'full'),
     status: 'closed',
     startDate: '2020-01-01',
     endDate: '2020-12-01',
@@ -471,7 +514,8 @@ export const mockBusinesses: Business[] = [
     id: '15',
     name: 'Anita Conti',
     tagline: 'Bracelets marins',
-    logo: '⚓',
+    logo: getLogoPath('Anita Conti', 'thumb') || '⚓',
+    logoFull: getLogoPath('Anita Conti', 'full'),
     status: 'closed',
     startDate: '2018-03-01',
     endDate: '2018-09-01',
@@ -504,7 +548,8 @@ export const mockBusinesses: Business[] = [
     id: '16',
     name: 'Check That Curves',
     tagline: 'Accessoires sportifs avec influenceuse',
-    logo: '💪',
+    logo: getLogoPath('Check That Curves', 'thumb') || '💪',
+    logoFull: getLogoPath('Check That Curves', 'full'),
     status: 'closed',
     startDate: '2018-06-01',
     endDate: '2019-03-01',
@@ -570,7 +615,8 @@ export const mockBusinesses: Business[] = [
     id: '18',
     name: 'EBusiness Maker',
     tagline: 'Agence marketing digital complète',
-    logo: '🚀',
+    logo: getLogoPath('EBusiness Maker', 'thumb') || '🚀',
+    logoFull: getLogoPath('EBusiness Maker', 'full'),
     status: 'pivoted',
     startDate: '2018-01-01',
     endDate: '2020-01-01',
@@ -605,7 +651,8 @@ export const mockBusinesses: Business[] = [
     id: '19',
     name: 'MyPad',
     tagline: 'Tapis de souris eSport personnalisés',
-    logo: '🎮',
+    logo: getLogoPath('MyPad', 'thumb') || '🎮',
+    logoFull: getLogoPath('MyPad', 'full'),
     status: 'closed',
     startDate: '2016-03-01',
     endDate: '2017-01-01',
@@ -706,7 +753,8 @@ export const mockBusinesses: Business[] = [
     id: '22',
     name: 'Goldify',
     tagline: 'Placage or sur Apple Watch',
-    logo: '⌚',
+    logo: getLogoPath('Goldify', 'thumb') || '⌚',
+    logoFull: getLogoPath('Goldify', 'full'),
     status: 'closed',
     startDate: '2015-06-01',
     endDate: '2016-03-01',
@@ -774,7 +822,8 @@ export const mockBusinesses: Business[] = [
     id: '24',
     name: 'Cloud Development',
     tagline: 'Sites internet et logos',
-    logo: '☁️',
+    logo: getLogoPath('Cloud Development', 'thumb') || '☁️',
+    logoFull: getLogoPath('Cloud Development', 'full'),
     status: 'pivoted',
     startDate: '2014-06-01',
     endDate: '2015-12-01',
