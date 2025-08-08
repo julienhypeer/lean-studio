@@ -71,25 +71,25 @@ export default function ModernDashboard({ business }: ModernDashboardProps) {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 p-6">
-      {/* Header */}
+    <div className="min-h-screen bg-slate-50 p-4 sm:p-6">
+      {/* Header - Mobile optimized */}
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-6"
+        className="mb-4 sm:mb-6"
       >
-        <div className="bg-white border border-slate-200 rounded-xl p-5">
+        <div className="bg-white border border-slate-200 rounded-xl p-4 sm:p-5">
           <div className="flex flex-col items-center text-center mb-2">
             {business.logoFull || business.logo?.startsWith('/') ? (
               <img 
                 src={business.logoFull || business.logo} 
                 alt={business.name}
-                className="w-32 h-32 rounded-lg object-cover mb-3"
+                className="w-24 h-24 sm:w-32 sm:h-32 rounded-lg object-cover mb-3"
               />
             ) : (
-              <span className="text-6xl mb-3">{business.logo}</span>
+              <span className="text-5xl sm:text-6xl mb-3">{business.logo}</span>
             )}
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">{business.name}</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">{business.name}</h1>
             <div className="flex items-center gap-3 mb-2">
               {getStatusBadge()}
               <span className="text-sm text-slate-400 uppercase tracking-wider">
@@ -145,8 +145,8 @@ export default function ModernDashboard({ business }: ModernDashboardProps) {
         </motion.div>
       )}
 
-      {/* Metrics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+      {/* Metrics Grid - Mobile optimized */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
         <ModernMetricCard
           title="Revenue Total"
           value={formatCurrency(business.metrics.totalRevenue)}
@@ -180,7 +180,7 @@ export default function ModernDashboard({ business }: ModernDashboardProps) {
 
       {/* Lean Metrics */}
       {business.status === 'active' && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
           <ModernMetricCard
             title="MRR"
             value={formatCurrency(business.metrics.mrr)}
@@ -226,8 +226,8 @@ export default function ModernDashboard({ business }: ModernDashboardProps) {
         </div>
       </div>
 
-      {/* Milestones & Lessons */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      {/* Milestones & Lessons - Stack on mobile */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}

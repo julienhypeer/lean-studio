@@ -1,6 +1,7 @@
 import { ReactNode, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import RefinedSidebar from '../components/RefinedSidebar';
+import MobileHeader from '../components/MobileHeader';
 import { Business } from '../types/business';
 
 interface DashboardLayoutProps {
@@ -19,6 +20,7 @@ export default function DashboardLayout({
   const location = useLocation();
   const [showSidebar, setShowSidebar] = useState(false);
   const [contentReady, setContentReady] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   const businessList = businesses.map(b => ({
     id: b.id,
@@ -44,24 +46,35 @@ export default function DashboardLayout({
     }
   }, [location]);
 
+  const currentBusinessData = businesses.find(b => b.id === currentBusiness);
+
   return (
-    <div className="flex h-screen bg-background">
+    <div className="relative flex h-screen bg-background">
+      {/* Mobile Header */}
+      <MobileHeader 
+        isOpen={isMobileMenuOpen}
+        onToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        currentBusinessName={currentBusinessData?.name}
+      />
+      
       {/* Sidebar with slide-in animation */}
       <div 
-        className={`transition-transform duration-500 ease-out ${
+        className={`lg:relative transition-transform duration-500 ease-out ${
           showSidebar ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        } ${isMobileMenuOpen ? '' : 'hidden lg:block'}`}
       >
         <RefinedSidebar 
           currentBusiness={currentBusiness}
           onBusinessChange={onBusinessChange}
           businesses={businessList}
+          isMobileOpen={isMobileMenuOpen}
+          onMobileClose={() => setIsMobileMenuOpen(false)}
         />
       </div>
       
       {/* Main content with fade-in */}
       <main 
-        className={`flex-1 overflow-y-auto transition-opacity duration-700 ${
+        className={`flex-1 overflow-y-auto transition-opacity duration-700 pt-16 lg:pt-0 ${
           contentReady ? 'opacity-100' : 'opacity-0'
         }`}
       >

@@ -18,9 +18,17 @@ interface RefinedSidebarProps {
   currentBusiness: string;
   onBusinessChange: (businessId: string) => void;
   businesses: Array<{ id: string; name: string; logo: string; }>;
+  isMobileOpen?: boolean;
+  onMobileClose?: () => void;
 }
 
-export default function RefinedSidebar({ currentBusiness, onBusinessChange, businesses }: RefinedSidebarProps) {
+export default function RefinedSidebar({ 
+  currentBusiness, 
+  onBusinessChange, 
+  businesses,
+  isMobileOpen = false,
+  onMobileClose 
+}: RefinedSidebarProps) {
   const [isBusinessDropdownOpen, setIsBusinessDropdownOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -61,11 +69,29 @@ export default function RefinedSidebar({ currentBusiness, onBusinessChange, busi
     },
   ];
 
+  const handleNavigation = (path: string) => {
+    navigate(path);
+    if (onMobileClose) {
+      onMobileClose();
+    }
+  };
+
   return (
-    <div className={`
-      h-screen bg-slate-900 flex flex-col transition-all duration-300 ease-in-out
-      ${isCollapsed ? 'w-16' : 'w-64'}
-    `}>
+    <>
+      {/* Mobile Overlay */}
+      {isMobileOpen && (
+        <div 
+          className="lg:hidden fixed inset-0 bg-black/50 z-40"
+          onClick={onMobileClose}
+        />
+      )}
+      
+      {/* Sidebar */}
+      <div className={`
+        fixed lg:relative h-screen bg-slate-900 flex flex-col transition-all duration-300 ease-in-out z-50
+        ${isCollapsed ? 'w-16' : 'w-64'}
+        ${isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+      `}>
       {/* Header with collapse button */}
       <div className="flex items-center justify-between px-4 py-5 border-b border-slate-800">
         {!isCollapsed && (
@@ -182,6 +208,9 @@ export default function RefinedSidebar({ currentBusiness, onBusinessChange, busi
                           onBusinessChange(business.id);
                           setIsBusinessDropdownOpen(false);
                           setSearchQuery(''); // Reset search on selection
+                          if (onMobileClose) {
+                            onMobileClose();
+                          }
                         }}
                         className="w-full flex items-center gap-2.5 px-3 py-2.5 hover:bg-slate-700 transition-colors"
                       >
@@ -228,7 +257,7 @@ export default function RefinedSidebar({ currentBusiness, onBusinessChange, busi
             return (
               <button
                 key={item.label}
-                onClick={() => navigate(item.path)}
+                onClick={() => handleNavigation(item.path)}
                 className={`
                   w-full flex items-center rounded-lg mb-1 transition-all duration-200 group relative
                   ${isActive 
@@ -285,7 +314,7 @@ export default function RefinedSidebar({ currentBusiness, onBusinessChange, busi
             return (
               <button
                 key={item.label}
-                onClick={() => navigate(item.path)}
+                onClick={() => handleNavigation(item.path)}
                 className={`
                   w-full flex items-center rounded-lg mb-1 transition-all duration-200 group relative
                   ${isActive 
