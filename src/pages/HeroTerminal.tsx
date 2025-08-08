@@ -3,17 +3,18 @@ import { ArrowRight } from 'lucide-react';
 import { AuroraBackground } from '../components/AuroraBackground';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { getLogoPath } from '../data/mockData';
 
 export default function HeroTerminal() {
   const navigate = useNavigate();
   
   const logos = [
-    { emoji: '🚀', name: 'NoCodeur' },
-    { emoji: '🌱', name: 'EcoDeliver' },
-    { emoji: '💪', name: 'FitTracker' },
-    { emoji: '👨‍🍳', name: 'LocalChef' },
-    { emoji: '📊', name: 'DataBoost' },
-    { emoji: '🎯', name: 'TargetAI' },
+    { name: 'Nocodeur', logo: getLogoPath('Nocodeur', 'thumb') },
+    { name: 'Hematokey', logo: getLogoPath('Hematokey', 'thumb') },
+    { name: 'Digital Mind', logo: getLogoPath('Digital Mind', 'thumb') },
+    { name: 'Dermassist', logo: getLogoPath('Dermassist', 'thumb') },
+    { name: 'Trophy cosmetics', logo: getLogoPath('Trophy cosmetics', 'thumb') },
+    { name: 'Par ou commencer ?', logo: getLogoPath('Par ou commencer ?', 'thumb') },
   ];
 
   const [visibleLogos, setVisibleLogos] = useState<number[]>([]);
@@ -96,9 +97,17 @@ export default function HeroTerminal() {
                         className="flex items-center justify-center absolute inset-0"
                       >
                         <div className="flex flex-col items-center">
-                          <span className="text-3xl mb-1 grayscale hover:grayscale-0 transition-all duration-300">
-                            {logo.emoji}
-                          </span>
+                          {logo.logo ? (
+                            <img 
+                              src={logo.logo} 
+                              alt={logo.name}
+                              className="w-12 h-12 mb-1 grayscale hover:grayscale-0 transition-all duration-300 object-cover rounded-lg"
+                            />
+                          ) : (
+                            <div className="w-12 h-12 mb-1 bg-gray-200 rounded-lg flex items-center justify-center">
+                              <span className="text-gray-500 text-xs">?</span>
+                            </div>
+                          )}
                           <span className="text-xs text-gray-600 font-medium opacity-70">
                             {logo.name}
                           </span>
