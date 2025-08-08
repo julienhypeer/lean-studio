@@ -4,6 +4,13 @@ import { Business } from '../types/business';
 const logoMapping: Record<string, string> = {
   'Nocodeur': 'nocodeur',
   'Hematokey': 'hematokey',
+  'Digital Mind': 'digital-mind',
+  'Infrastructure IA': 'infrastructure-ia',
+  'Dermassist': 'dermassist',
+  'Trophy cosmetics': 'trophy-cosmetics',
+  'Par ou commencer ?': 'par-ou-commencer',
+  'esportlogo': 'esport-logo',
+  'hipstermystyle': 'hipstermystyle',
   'Maskimize': 'maskimize',
   '11LEVEN': '11eleven',
   'Agence marketing digital': 'agence-marketing-digital',
@@ -25,8 +32,8 @@ const logoMapping: Record<string, string> = {
   'WaterBags': 'waterbags'
 };
 
-// Fonction pour obtenir le chemin du logo
-function getLogoPath(businessName: string, size: 'thumb' | 'full'): string | undefined {
+// Fonction pour obtenir le chemin du logo - EXPORTED NOW
+export function getLogoPath(businessName: string, size: 'thumb' | 'full'): string | undefined {
   const logoKey = logoMapping[businessName];
   if (!logoKey) return undefined;
   
