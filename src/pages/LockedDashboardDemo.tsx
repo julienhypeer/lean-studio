@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Business } from '../types/business';
 import ModernMetricCard from '../components/ModernMetricCard';
 import LockedMetricCard from '../components/LockedMetricCard';
 import RevenueChart from '../components/RevenueChart';
