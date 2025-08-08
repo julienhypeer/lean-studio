@@ -420,5 +420,6 @@ export default function RefinedSidebar({
         </div>
       </div>
     </div>
+    </>
   );
 }

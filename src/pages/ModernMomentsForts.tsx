@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Trophy, Medal } from 'lucide-react';
-import TrophyCard from '../components/TrophyCard';
 
 interface Trophy {
   id: string;
