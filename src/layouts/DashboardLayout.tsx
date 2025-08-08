@@ -23,7 +23,7 @@ export default function DashboardLayout({
   const businessList = businesses.map(b => ({
     id: b.id,
     name: b.name,
-    logo: b.logo
+    logo: b.logoIcon || b.logo  // Use icon version for sidebar if available
   }));
 
   // Handle animation on navigation from HeroTerminal

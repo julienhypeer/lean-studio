@@ -3,6 +3,7 @@ export interface Business {
   name: string;
   tagline: string;
   logo: string;
+  logoIcon?: string;
   logoFull?: string;
   status: 'active' | 'pivoted' | 'sold' | 'closed';
   startDate: string;

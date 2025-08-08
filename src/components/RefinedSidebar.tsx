@@ -7,7 +7,8 @@ import {
   ChevronLeft,
   ChevronRight,
   TrendingUp,
-  Briefcase
+  Briefcase,
+  Search
 } from 'lucide-react';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -22,9 +23,15 @@ interface RefinedSidebarProps {
 export default function RefinedSidebar({ currentBusiness, onBusinessChange, businesses }: RefinedSidebarProps) {
   const [isBusinessDropdownOpen, setIsBusinessDropdownOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const currentBusinessData = businesses.find(b => b.id === currentBusiness);
   const location = useLocation();
   const navigate = useNavigate();
+  
+  // Filter businesses based on search query
+  const filteredBusinesses = searchQuery 
+    ? businesses.filter(b => b.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    : businesses;
 
   // Section 1 - Menus spécifiques au projet
   const projectMenuItems = [
@@ -148,32 +155,57 @@ export default function RefinedSidebar({ currentBusiness, onBusinessChange, busi
                 initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
-                className="absolute top-full left-0 right-0 mt-1.5 bg-slate-800 rounded-lg shadow-xl overflow-hidden z-50 border border-slate-700"
+                className="absolute top-full left-0 right-0 mt-1.5 bg-slate-800 rounded-lg shadow-xl z-50 border border-slate-700"
               >
-                {businesses.map((business) => (
-                  <button
-                    key={business.id}
-                    onClick={() => {
-                      onBusinessChange(business.id);
-                      setIsBusinessDropdownOpen(false);
-                    }}
-                    className="w-full flex items-center gap-2.5 px-3 py-2.5 hover:bg-slate-700 transition-colors"
-                  >
-                    {business.logo?.startsWith('/') ? (
-                      <img 
-                        src={business.logo} 
-                        alt={business.name}
-                        className="w-5 h-5 rounded object-cover"
-                      />
-                    ) : (
-                      <span className="text-base">{business.logo}</span>
-                    )}
-                    <span className="text-sm text-slate-200">{business.name}</span>
-                    {business.id === currentBusiness && (
-                      <div className="ml-auto w-1.5 h-1.5 bg-accent rounded-full"></div>
-                    )}
-                  </button>
-                ))}
+                {/* Search Input */}
+                <div className="p-2 border-b border-slate-700">
+                  <div className="relative">
+                    <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Rechercher un projet..."
+                      className="w-full pl-8 pr-3 py-1.5 bg-slate-900 border border-slate-600 rounded-md text-sm text-white placeholder-slate-400 focus:outline-none focus:border-accent"
+                      autoFocus
+                    />
+                  </div>
+                </div>
+                
+                {/* Projects List */}
+                <div className="max-h-64 overflow-y-auto">
+                  {filteredBusinesses.length > 0 ? (
+                    filteredBusinesses.map((business) => (
+                      <button
+                        key={business.id}
+                        onClick={() => {
+                          onBusinessChange(business.id);
+                          setIsBusinessDropdownOpen(false);
+                          setSearchQuery(''); // Reset search on selection
+                        }}
+                        className="w-full flex items-center gap-2.5 px-3 py-2.5 hover:bg-slate-700 transition-colors"
+                      >
+                        {business.logo?.startsWith('/') ? (
+                          <img 
+                            src={business.logo} 
+                            alt={business.name}
+                            className="w-5 h-5 rounded object-cover"
+                          />
+                        ) : (
+                          <span className="text-base">{business.logo}</span>
+                        )}
+                        <span className="text-sm text-slate-200">{business.name}</span>
+                        {business.id === currentBusiness && (
+                          <div className="ml-auto w-1.5 h-1.5 bg-accent rounded-full"></div>
+                        )}
+                      </button>
+                    ))
+                  ) : (
+                    <div className="px-3 py-4 text-center text-sm text-slate-400">
+                      Aucun projet trouvé
+                    </div>
+                  )}
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
