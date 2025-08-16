@@ -167,22 +167,62 @@ function calculateCustomerRange(revenueRange: [number, number], industry: string
   ];
 }
 
+// Paliers standardisés pour les revenus (première année) - ratio 1:2 maximum
+const REVENUE_TIERS = {
+  none: { label: 'Non lancé', range: [0, 0] },
+  starter: { label: '€8K-12K', range: [8000, 12000] },  // ratio 1:1.5
+  traction: { label: '€25K-35K', range: [25000, 35000] },  // ratio 1:1.4
+  growth: { label: '€80K-120K', range: [80000, 120000] },  // ratio 1:1.5
+  scale: { label: '€180K-250K', range: [180000, 250000] },  // ratio 1:1.4
+  success: { label: '€350K-450K', range: [350000, 450000] }  // ratio 1:1.3
+};
+
+// Paliers pour les clients - ratios serrés
+const CUSTOMER_TIERS = {
+  none: { label: 'En préparation', range: [0, 0] },
+  few: { label: '15-25', range: [15, 25] },  // ratio 1:1.7
+  some: { label: '50-80', range: [50, 80] },  // ratio 1:1.6
+  many: { label: '200-350', range: [200, 350] },  // ratio 1:1.75
+  lots: { label: '800-1200', range: [800, 1200] }  // ratio 1:1.5
+};
+
 // Formatage des fourchettes pour l'affichage
 export function formatValueRange(min: number, max: number, type: 'currency' | 'number' = 'currency'): string {
+  // Pour les projets non lancés
+  if (min === 0 && max === 0) {
+    return type === 'currency' ? 'Non lancé' : 'En préparation';
+  }
+  
   if (type === 'number') {
-    if (max >= 1000000) {
-      return `${(min / 1000000).toFixed(1)}M-${(max / 1000000).toFixed(1)}M`;
+    // Formater les nombres de manière propre
+    if (min === max) {
+      return min.toLocaleString('fr-FR');
     }
+    
     if (max >= 1000) {
-      return `${Math.round(min / 1000)}K-${Math.round(max / 1000)}K`;
+      // Utiliser K pour les milliers
+      const minFormatted = min >= 1000 
+        ? `${(min / 1000).toFixed(min % 1000 === 0 ? 0 : 1)}K`
+        : min.toString();
+      const maxFormatted = `${(max / 1000).toFixed(max % 1000 === 0 ? 0 : 1)}K`;
+      return `${minFormatted}-${maxFormatted}`;
     }
+    
     return `${min}-${max}`;
   }
   
-  // Pour les montants
+  // Pour les montants - formatage propre et cohérent
   const formatValue = (val: number) => {
-    if (val >= 1000000) return `${(val / 1000000).toFixed(0)}M`;
-    if (val >= 1000) return `${Math.round(val / 1000)}K`;
+    if (val >= 1000000) {
+      // Millions avec 1 décimale si nécessaire
+      const millions = val / 1000000;
+      return millions % 1 === 0 ? `${millions}M` : `${millions.toFixed(1)}M`;
+    }
+    if (val >= 1000) {
+      // Milliers - toujours en K
+      const thousands = val / 1000;
+      return thousands % 1 === 0 ? `${thousands}K` : `${thousands.toFixed(0)}K`;
+    }
     return val.toString();
   };
   
@@ -192,92 +232,145 @@ export function formatValueRange(min: number, max: number, type: 'currency' | 'n
 // Génération de métriques masquées mais cohérentes
 export function generateLockedMetrics(business: Business) {
   const profile = generateProjectProfile(business);
+  const realData = projectsRealData.find(p => p.name === business.name);
   
-  // Pour les projets non lancés, afficher des projections
+  // Pour les projets non lancés, affichage simplifié
   if (profile.growthPattern === 'not-launched') {
     return {
-      revenueRange: 'Projection: €5K-50K',
-      customerRange: 'Cible: 10-100',
-      mrrRange: 'Objectif: €1K-5K',
-      ltvcacRange: 'Target: 3x-5x',
-      churnRange: 'Prévu: 3%-7%',
-      runwayRange: 'Planifié: 12-24 mois',
-      growthTrend: { value: 'En préparation', type: 'neutral' as const },
-      expenseRatio: 'Budget: €5K-20K'
+      revenueRange: 'Non lancé',
+      customerRange: 'En préparation',
+      mrrRange: '-',
+      ltvcacRange: '-',
+      churnRange: '-',
+      runwayRange: 'Budget initial',
+      growthTrend: { value: 'Lancement prévu', type: 'neutral' as const },
+      expenseRatio: 'Budget alloué'
     };
   }
   
+  // Utiliser les vraies données ou les paliers standardisés
+  let revenueRange = profile.revenueRange;
+  let customerRange = profile.customerRange;
+  
+  // Appliquer les paliers standardisés selon la catégorie
+  if (realData) {
+    // Utiliser directement les paliers définis
+    switch(realData.revenueCategory) {
+      case 'none':
+        revenueRange = REVENUE_TIERS.none.range as [number, number];
+        break;
+      case 'starter':
+        revenueRange = REVENUE_TIERS.starter.range as [number, number];
+        break;
+      case 'traction':
+        revenueRange = REVENUE_TIERS.traction.range as [number, number];
+        break;
+      case 'growth':
+        revenueRange = REVENUE_TIERS.growth.range as [number, number];
+        break;
+      case 'success':
+        revenueRange = REVENUE_TIERS.success.range as [number, number];
+        break;
+      default:
+        revenueRange = REVENUE_TIERS.starter.range as [number, number];
+    }
+    
+    // Appliquer des paliers pour les clients
+    switch(realData.customerCategory) {
+      case 'none':
+        customerRange = CUSTOMER_TIERS.none.range as [number, number];
+        break;
+      case 'few':
+        customerRange = CUSTOMER_TIERS.few.range as [number, number];
+        break;
+      case 'some':
+        customerRange = CUSTOMER_TIERS.some.range as [number, number];
+        break;
+      case 'many':
+        customerRange = CUSTOMER_TIERS.many.range as [number, number];
+        break;
+      case 'lots':
+        customerRange = CUSTOMER_TIERS.lots.range as [number, number];
+        break;
+      default:
+        customerRange = CUSTOMER_TIERS.few.range as [number, number];
+    }
+  }
+  
   // MRR basé sur le revenue range
-  const mrrMin = Math.round(profile.revenueRange[0] / 12);
-  const mrrMax = Math.round(profile.revenueRange[1] / 12);
+  const mrrMin = Math.round(revenueRange[0] / 12);
+  const mrrMax = Math.round(revenueRange[1] / 12);
   
-  // LTV/CAC ratio selon le pattern
+  // LTV/CAC ratio harmonisé avec fourchettes serrées
   let ltvcacRange: [number, number];
-  if (profile.growthPattern === 'explosive') {
-    ltvcacRange = [3.5, 6.0];
-  } else if (profile.growthPattern === 'steady') {
-    ltvcacRange = [2.0, 4.0];
-  } else if (profile.growthPattern === 'declining') {
-    ltvcacRange = [0.8, 1.5];
-  } else if (profile.growthPattern === 'pivoted') {
-    ltvcacRange = [1.0, 3.0];
-  } else if (profile.growthPattern === 'not-launched') {
-    ltvcacRange = [0, 0];
+  if (business.status === 'active') {
+    ltvcacRange = [2.5, 3.5]; // Ratio serré pour tous les actifs
+  } else if (business.status === 'closed') {
+    ltvcacRange = [0.8, 1.2];
+  } else if (business.status === 'sold') {
+    ltvcacRange = [3.0, 4.0]; // Bon ratio avant vente
   } else {
-    ltvcacRange = [2.0, 3.5];
+    ltvcacRange = [1.8, 2.5]; // Pivoted
   }
   
-  // Churn rate selon le statut
+  // Churn rate harmonisé avec fourchettes serrées
   let churnRange: [number, number];
-  switch (business.status) {
-    case 'active':
-      churnRange = [2, 5];
-      break;
-    case 'sold':
-      churnRange = [1, 3];
-      break;
-    case 'pivoted':
-      churnRange = [5, 12];
-      break;
-    case 'closed':
-      churnRange = [10, 25];
-      break;
-    default:
-      churnRange = [3, 8];
+  if (business.status === 'active') {
+    churnRange = [4, 6]; // 4-6% pour tous les actifs
+  } else if (business.status === 'closed') {
+    churnRange = [18, 22]; // Fort churn avant fermeture
+  } else if (business.status === 'sold') {
+    churnRange = [2, 4]; // Faible churn avant vente
+  } else {
+    churnRange = [7, 9]; // Pivoted
   }
   
-  // Runway selon le statut
+  // Runway harmonisé avec fourchettes serrées
   let runwayRange: [number, number];
-  switch (business.status) {
-    case 'active':
-      runwayRange = [12, 36];
-      break;
-    case 'sold':
-      runwayRange = [6, 18]; // Moins pertinent
-      break;
-    case 'pivoted':
-      runwayRange = [3, 12];
-      break;
-    case 'closed':
-      runwayRange = [0, 3];
-      break;
-    default:
-      runwayRange = [6, 24];
+  if (business.status === 'active') {
+    runwayRange = [16, 20]; // 16-20 mois pour tous les actifs
+  } else if (business.status === 'closed') {
+    runwayRange = [1, 2];
+  } else if (business.status === 'sold') {
+    runwayRange = [22, 28]; // Bonne trésorerie avant vente
+  } else {
+    runwayRange = [8, 11]; // Pivoted
   }
   
   return {
-    revenueRange: formatValueRange(profile.revenueRange[0], profile.revenueRange[1]),
-    customerRange: formatValueRange(profile.customerRange[0], profile.customerRange[1], 'number'),
+    revenueRange: formatValueRange(revenueRange[0], revenueRange[1]),
+    customerRange: formatValueRange(customerRange[0], customerRange[1], 'number'),
     mrrRange: formatValueRange(mrrMin, mrrMax),
-    ltvcacRange: `${ltvcacRange[0]}x-${ltvcacRange[1]}x`,
+    ltvcacRange: `${ltvcacRange[0].toFixed(1)}x-${ltvcacRange[1].toFixed(1)}x`,
     churnRange: `${churnRange[0]}%-${churnRange[1]}%`,
     runwayRange: `${runwayRange[0]}-${runwayRange[1]} mois`,
-    growthTrend: getGrowthTrend(profile.growthPattern),
+    growthTrend: getGrowthTrend(profile.growthPattern, business.status),
     expenseRatio: getExpenseRatio(business.status)
   };
 }
 
-function getGrowthTrend(pattern: string): { value: string; type: 'increase' | 'decrease' | 'neutral' } {
+function getGrowthTrend(pattern: string, status?: string): { value: string; type: 'increase' | 'decrease' | 'neutral' } {
+  // Pour les projets non lancés
+  if (pattern === 'not-launched') {
+    return { value: 'En préparation', type: 'neutral' };
+  }
+  
+  // Harmoniser les tendances selon le statut
+  if (status === 'active') {
+    // Tendance positive standardisée pour tous les actifs
+    return { value: '+25%', type: 'increase' };
+  } else if (status === 'closed') {
+    // Tendance négative pour les fermés
+    return { value: '-15%', type: 'decrease' };
+  } else if (status === 'pivoted') {
+    // Tendance neutre pour les pivotés
+    return { value: '+5%', type: 'neutral' };
+  } else if (status === 'sold') {
+    // Forte croissance avant vente
+    return { value: '+45%', type: 'increase' };
+  }
+  
+  // Fallback sur le pattern si statut non reconnu
   switch (pattern) {
     case 'explosive':
       return { value: '+85%', type: 'increase' };
@@ -287,8 +380,6 @@ function getGrowthTrend(pattern: string): { value: string; type: 'increase' | 'd
       return { value: '-15%', type: 'decrease' };
     case 'pivoted':
       return { value: '+5%', type: 'neutral' };
-    case 'not-launched':
-      return { value: 'En préparation', type: 'neutral' };
     default:
       return { value: '+15%', type: 'increase' };
   }
