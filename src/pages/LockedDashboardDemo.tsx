@@ -17,47 +17,24 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { mockBusinesses } from '../data/mockData';
-import { MonthlyData } from '../types/business';
+import { generateLockedMetrics, generateMaskedMonthlyData } from '../utils/lockedDataGenerator';
 
 export default function LockedDashboardDemo() {
   const [showLocked, setShowLocked] = useState(true);
+  const [selectedBusinessIndex, setSelectedBusinessIndex] = useState(0);
   
-  // Utiliser le premier business comme démo
-  const business = mockBusinesses[0];
+  // Business sélectionné
+  const business = mockBusinesses[selectedBusinessIndex];
+
+  // Générer les métriques masquées pour ce business
+  const lockedMetrics = useMemo(() => {
+    return generateLockedMetrics(business);
+  }, [business]);
 
   // Générer 12 mois de données basées sur la date de lancement
   const generateMonthlyData = useMemo(() => {
-    const startDate = new Date(business.startDate);
-    const monthsToGenerate = 12;
-    const data: MonthlyData[] = [];
-    
-    // Valeurs de base pour la génération
-    const baseRevenue = 5000;
-    const baseExpenses = 3000;
-    const growthRate = 0.15; // 15% de croissance moyenne par mois
-    
-    for (let i = 0; i < monthsToGenerate; i++) {
-      const monthDate = new Date(startDate);
-      monthDate.setMonth(startDate.getMonth() + i);
-      
-      // Générer des variations réalistes
-      const randomVariation = 0.8 + Math.random() * 0.4; // Entre 80% et 120%
-      const monthGrowth = Math.pow(1 + growthRate, i);
-      
-      const revenue = Math.round(baseRevenue * monthGrowth * randomVariation);
-      const expenses = Math.round(baseExpenses * (1 + i * 0.05) * randomVariation); // Croissance plus lente des dépenses
-      
-      data.push({
-        month: monthDate.toLocaleDateString('fr-FR', { month: 'short' }),
-        revenue,
-        expenses,
-        customers: Math.round(10 + i * 8 * randomVariation),
-        orders: Math.round(15 + i * 12 * randomVariation)
-      });
-    }
-    
-    return data;
-  }, [business.startDate]);
+    return generateMaskedMonthlyData(business, 12);
+  }, [business]);
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('fr-FR', {
@@ -110,34 +87,45 @@ export default function LockedDashboardDemo() {
     );
   };
 
-  // Générer des fourchettes réalistes basées sur l'industrie
-  const generateValueRange = (min: number, max: number): string => {
-    const formatValue = (val: number) => {
-      if (val >= 1000000) return `${(val / 1000000).toFixed(0)}M`;
-      if (val >= 1000) return `${(val / 1000).toFixed(0)}K`;
-      return val.toString();
-    };
-    return `€${formatValue(min)}-${formatValue(max)}`;
-  };
 
   return (
     <div className="min-h-screen bg-slate-50 p-4 sm:p-6">
       {/* Control Bar */}
-      <div className="mb-4 bg-slate-900 rounded-lg p-3 flex items-center justify-between">
-        <div className="text-white text-sm font-medium">
-          Mode Démonstration Verrouillée
+      <div className="mb-4 bg-slate-900 rounded-lg p-3">
+        <div className="flex items-center justify-between mb-3">
+          <div className="text-white text-sm font-medium">
+            Mode Démonstration Verrouillée
+          </div>
+          <button
+            onClick={() => setShowLocked(!showLocked)}
+            className={`px-4 py-1.5 rounded font-medium text-sm transition-all flex items-center gap-2 ${
+              showLocked 
+                ? 'bg-red-600 hover:bg-red-700 text-white' 
+                : 'bg-green-600 hover:bg-green-700 text-white'
+            }`}
+          >
+            {showLocked ? <Lock className="w-4 h-4" /> : <Unlock className="w-4 h-4" />}
+            {showLocked ? 'Données Masquées' : 'Données Visibles'}
+          </button>
         </div>
-        <button
-          onClick={() => setShowLocked(!showLocked)}
-          className={`px-4 py-1.5 rounded font-medium text-sm transition-all flex items-center gap-2 ${
-            showLocked 
-              ? 'bg-red-600 hover:bg-red-700 text-white' 
-              : 'bg-green-600 hover:bg-green-700 text-white'
-          }`}
-        >
-          {showLocked ? <Lock className="w-4 h-4" /> : <Unlock className="w-4 h-4" />}
-          {showLocked ? 'Données Masquées' : 'Données Visibles'}
-        </button>
+        
+        {/* Sélecteur de projet */}
+        <div className="flex items-center gap-2">
+          <label className="text-white text-xs">Projet :</label>
+          <select
+            value={selectedBusinessIndex}
+            onChange={(e) => setSelectedBusinessIndex(Number(e.target.value))}
+            className="flex-1 bg-slate-800 text-white text-sm px-2 py-1 rounded border border-slate-700 focus:border-slate-500 focus:outline-none"
+          >
+            {mockBusinesses.map((b, index) => (
+              <option key={b.id} value={index}>
+                {b.name} ({b.status === 'active' ? 'Actif' : 
+                          b.status === 'pivoted' ? 'Pivoté' :
+                          b.status === 'sold' ? 'Vendu' : 'Fermé'})
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       {/* Header */}
@@ -219,17 +207,17 @@ export default function LockedDashboardDemo() {
           <>
             <LockedMetricCard
               title="Revenue Total"
-              valueRange={generateValueRange(50000, 150000)}
-              trend="+127%"
-              trendType="increase"
+              valueRange={lockedMetrics.revenueRange}
+              trend={lockedMetrics.growthTrend.value}
+              trendType={lockedMetrics.growthTrend.type}
               hint="Sur 12 mois"
               icon={DollarSign}
               color="text-green-600"
             />
             <LockedMetricCard
               title="Dépenses Totales"
-              valueRange={generateValueRange(20000, 60000)}
-              trend="+45%"
+              valueRange={lockedMetrics.revenueRange}
+              trend={lockedMetrics.expenseRatio}
               trendType="increase"
               hint="Optimisées"
               icon={TrendingUp}
@@ -237,9 +225,9 @@ export default function LockedDashboardDemo() {
             />
             <LockedMetricCard
               title="Clients Totaux"
-              valueRange="100-500"
-              trend="+89%"
-              trendType="increase"
+              valueRange={lockedMetrics.customerRange}
+              trend={lockedMetrics.growthTrend.value}
+              trendType={lockedMetrics.growthTrend.type}
               hint="Base croissante"
               icon={Users}
               color="text-blue-600"
@@ -287,7 +275,7 @@ export default function LockedDashboardDemo() {
             <>
               <LockedMetricCard
                 title="MRR"
-                valueRange={generateValueRange(5000, 15000)}
+                valueRange={lockedMetrics.mrrRange}
                 trend="+22%"
                 trendType="increase"
                 icon={Activity}
@@ -295,7 +283,7 @@ export default function LockedDashboardDemo() {
               />
               <LockedMetricCard
                 title="LTV / CAC"
-                valueRange="2.5x-4.5x"
+                valueRange={lockedMetrics.ltvcacRange}
                 trend="+0.8x"
                 trendType="increase"
                 icon={Target}
@@ -303,7 +291,7 @@ export default function LockedDashboardDemo() {
               />
               <LockedMetricCard
                 title="Churn Rate"
-                valueRange="2%-5%"
+                valueRange={lockedMetrics.churnRange}
                 trend="-0.5%"
                 trendType="decrease"
                 icon={Zap}
@@ -311,7 +299,7 @@ export default function LockedDashboardDemo() {
               />
               <LockedMetricCard
                 title="Runway"
-                valueRange="18-36 mois"
+                valueRange={lockedMetrics.runwayRange}
                 hint="Trésorerie stable"
                 icon={Clock}
                 color="text-teal-600"
