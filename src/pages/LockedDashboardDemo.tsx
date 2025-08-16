@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import ModernMetricCard from '../components/ModernMetricCard';
 import LockedMetricCard from '../components/LockedMetricCard';
 import RevenueChart from '../components/RevenueChart';
+import LockedRevenueChart from '../components/LockedRevenueChart';
 import OriginCard from '../components/OriginCard';
 import { 
   TrendingUp, 
@@ -16,13 +17,48 @@ import {
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { mockBusinesses } from '../data/mockData';
+import { MonthlyData } from '../types/business';
 
 export default function LockedDashboardDemo() {
   const [showLocked, setShowLocked] = useState(true);
-  const [selectedVariant, setSelectedVariant] = useState<'blur' | 'dark' | 'classified' | 'minimal' | 'premium'>('blur');
   
   // Utiliser le premier business comme démo
   const business = mockBusinesses[0];
+
+  // Générer 12 mois de données basées sur la date de lancement
+  const generateMonthlyData = useMemo(() => {
+    const startDate = new Date(business.startDate);
+    const currentDate = new Date();
+    const monthsToGenerate = 12;
+    const data: MonthlyData[] = [];
+    
+    // Valeurs de base pour la génération
+    const baseRevenue = 5000;
+    const baseExpenses = 3000;
+    const growthRate = 0.15; // 15% de croissance moyenne par mois
+    
+    for (let i = 0; i < monthsToGenerate; i++) {
+      const monthDate = new Date(startDate);
+      monthDate.setMonth(startDate.getMonth() + i);
+      
+      // Générer des variations réalistes
+      const randomVariation = 0.8 + Math.random() * 0.4; // Entre 80% et 120%
+      const monthGrowth = Math.pow(1 + growthRate, i);
+      
+      const revenue = Math.round(baseRevenue * monthGrowth * randomVariation);
+      const expenses = Math.round(baseExpenses * (1 + i * 0.05) * randomVariation); // Croissance plus lente des dépenses
+      
+      data.push({
+        month: monthDate.toLocaleDateString('fr-FR', { month: 'short' }),
+        revenue,
+        expenses,
+        customers: Math.round(10 + i * 8 * randomVariation),
+        orders: Math.round(15 + i * 12 * randomVariation)
+      });
+    }
+    
+    return data;
+  }, [business.startDate]);
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('fr-FR', {
@@ -34,7 +70,6 @@ export default function LockedDashboardDemo() {
   };
 
   const getOriginStory = () => {
-    // Utiliser les vraies données du business
     return {
       problem: business.idea || "Projet en développement",
       trigger: business.anecdote || "Histoire à venir",
@@ -50,8 +85,8 @@ export default function LockedDashboardDemo() {
   };
 
   const calculateGrowth = () => {
-    const lastMonth = business.monthlyData[business.monthlyData.length - 1];
-    const previousMonth = business.monthlyData[business.monthlyData.length - 2];
+    const lastMonth = generateMonthlyData[generateMonthlyData.length - 1];
+    const previousMonth = generateMonthlyData[generateMonthlyData.length - 2];
     
     if (!lastMonth || !previousMonth) return '0%';
     
@@ -76,32 +111,22 @@ export default function LockedDashboardDemo() {
     );
   };
 
-  const variants = [
-    { id: 'blur', label: 'Blur' },
-    { id: 'dark', label: 'Dark' },
-    { id: 'classified', label: 'Secret' },
-    { id: 'minimal', label: 'Minimal' },
-    { id: 'premium', label: 'Premium' }
-  ];
+  // Générer des fourchettes réalistes basées sur l'industrie
+  const generateValueRange = (min: number, max: number): string => {
+    const formatValue = (val: number) => {
+      if (val >= 1000000) return `${(val / 1000000).toFixed(0)}M`;
+      if (val >= 1000) return `${(val / 1000).toFixed(0)}K`;
+      return val.toString();
+    };
+    return `€${formatValue(min)}-${formatValue(max)}`;
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 p-4 sm:p-6">
       {/* Control Bar */}
       <div className="mb-4 bg-slate-900 rounded-lg p-3 flex items-center justify-between">
-        <div className="flex gap-2">
-          {variants.map((variant) => (
-            <button
-              key={variant.id}
-              onClick={() => setSelectedVariant(variant.id as any)}
-              className={`px-3 py-1 rounded text-xs font-medium transition-all ${
-                selectedVariant === variant.id
-                  ? 'bg-white text-slate-900'
-                  : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-              }`}
-            >
-              {variant.label}
-            </button>
-          ))}
+        <div className="text-white text-sm font-medium">
+          Mode Démonstration Verrouillée
         </div>
         <button
           onClick={() => setShowLocked(!showLocked)}
@@ -112,11 +137,11 @@ export default function LockedDashboardDemo() {
           }`}
         >
           {showLocked ? <Lock className="w-4 h-4" /> : <Unlock className="w-4 h-4" />}
-          {showLocked ? 'Verrouillé' : 'Déverrouillé'}
+          {showLocked ? 'Données Masquées' : 'Données Visibles'}
         </button>
       </div>
 
-      {/* Header - Mobile optimized */}
+      {/* Header */}
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -195,22 +220,28 @@ export default function LockedDashboardDemo() {
           <>
             <LockedMetricCard
               title="Revenue Total"
-              variant={selectedVariant}
-              hint="Données confidentielles"
+              valueRange={generateValueRange(50000, 150000)}
+              trend="+127%"
+              trendType="increase"
+              hint="Sur 12 mois"
               icon={DollarSign}
               color="text-green-600"
             />
             <LockedMetricCard
               title="Dépenses Totales"
-              variant={selectedVariant}
-              hint="Non divulgué"
+              valueRange={generateValueRange(20000, 60000)}
+              trend="+45%"
+              trendType="increase"
+              hint="Optimisées"
               icon={TrendingUp}
               color="text-red-600"
             />
             <LockedMetricCard
               title="Clients Totaux"
-              variant={selectedVariant}
-              hint="Confidentiel"
+              valueRange="100-500"
+              trend="+89%"
+              trendType="increase"
+              hint="Base croissante"
               icon={Users}
               color="text-blue-600"
             />
@@ -257,29 +288,32 @@ export default function LockedDashboardDemo() {
             <>
               <LockedMetricCard
                 title="MRR"
-                variant={selectedVariant}
-                hint="Non divulgué"
+                valueRange={generateValueRange(5000, 15000)}
+                trend="+22%"
+                trendType="increase"
                 icon={Activity}
                 color="text-indigo-600"
               />
               <LockedMetricCard
                 title="LTV / CAC"
-                variant={selectedVariant}
-                hint="Confidentiel"
+                valueRange="2.5x-4.5x"
+                trend="+0.8x"
+                trendType="increase"
                 icon={Target}
                 color="text-orange-600"
               />
               <LockedMetricCard
                 title="Churn Rate"
-                variant={selectedVariant}
-                hint="Privé"
+                valueRange="2%-5%"
+                trend="-0.5%"
+                trendType="decrease"
                 icon={Zap}
                 color="text-yellow-600"
               />
               <LockedMetricCard
                 title="Runway"
-                variant={selectedVariant}
-                hint="Non divulgué"
+                valueRange="18-36 mois"
+                hint="Trésorerie stable"
                 icon={Clock}
                 color="text-teal-600"
               />
@@ -327,13 +361,17 @@ export default function LockedDashboardDemo() {
 
       {/* Charts */}
       <div className="mb-6">
-        <div className="bg-white border border-slate-200 rounded-xl p-5">
-          <h3 className="text-sm font-semibold text-slate-900 mb-4 uppercase tracking-wider">Évolution Revenue</h3>
-          <RevenueChart data={business.monthlyData} />
-        </div>
+        {showLocked ? (
+          <LockedRevenueChart data={generateMonthlyData} />
+        ) : (
+          <div className="bg-white border border-slate-200 rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-slate-900 mb-4 uppercase tracking-wider">Évolution Revenue</h3>
+            <RevenueChart data={generateMonthlyData} />
+          </div>
+        )}
       </div>
 
-      {/* Milestones & Lessons - Stack on mobile */}
+      {/* Milestones & Lessons */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
