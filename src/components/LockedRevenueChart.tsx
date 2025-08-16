@@ -5,8 +5,7 @@ import {
   YAxis, 
   CartesianGrid, 
   Tooltip, 
-  ResponsiveContainer,
-  Legend
+  ResponsiveContainer
 } from 'recharts';
 import { MonthlyData } from '../types/business';
 import { Lock, TrendingUp } from 'lucide-react';
@@ -94,7 +93,7 @@ export default function LockedRevenueChart({ data, height = 300 }: LockedRevenue
             }`}
           >
             <TrendingUp className="w-3 h-3" />
-            <span className="text-sm font-semibold">{trend > 0 ? '+' : ''}{trend}%</span>
+            <span className="text-sm font-semibold">{Number(trend) > 0 ? '+' : ''}{trend}%</span>
           </motion.div>
           <Lock className="w-4 h-4 text-slate-400" />
         </div>

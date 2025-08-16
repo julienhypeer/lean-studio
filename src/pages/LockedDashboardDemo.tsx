@@ -28,7 +28,6 @@ export default function LockedDashboardDemo() {
   // Générer 12 mois de données basées sur la date de lancement
   const generateMonthlyData = useMemo(() => {
     const startDate = new Date(business.startDate);
-    const currentDate = new Date();
     const monthsToGenerate = 12;
     const data: MonthlyData[] = [];
     
