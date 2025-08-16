@@ -1,7 +1,9 @@
 import { Business } from '../types/business';
-import ModernMetricCard from '../components/ModernMetricCard';
-import RevenueChart from '../components/RevenueChart';
+import { useMemo } from 'react';
+import LockedMetricCard from '../components/LockedMetricCard';
+import LockedRevenueChart from '../components/LockedRevenueChart';
 import OriginCard from '../components/OriginCard';
+import { generateLockedMetrics, generateMaskedMonthlyData } from '../utils/lockedDataGenerator';
 import { 
   TrendingUp, 
   Users, 
@@ -18,14 +20,16 @@ interface ModernDashboardProps {
 }
 
 export default function ModernDashboard({ business }: ModernDashboardProps) {
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('fr-FR', {
-      style: 'currency',
-      currency: 'EUR',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(value);
-  };
+  // Générer les métriques masquées pour ce business
+  const lockedMetrics = useMemo(() => {
+    return generateLockedMetrics(business);
+  }, [business]);
+
+  // Générer 12 mois de données basées sur la date de lancement
+  const monthlyData = useMemo(() => {
+    return generateMaskedMonthlyData(business, 12);
+  }, [business]);
+
 
   const getOriginStory = () => {
     // Utiliser les vraies données du business
@@ -39,19 +43,6 @@ export default function ModernDashboard({ business }: ModernDashboardProps) {
     };
   };
 
-  const formatNumber = (value: number) => {
-    return new Intl.NumberFormat('fr-FR').format(value);
-  };
-
-  const calculateGrowth = () => {
-    const lastMonth = business.monthlyData[business.monthlyData.length - 1];
-    const previousMonth = business.monthlyData[business.monthlyData.length - 2];
-    
-    if (!lastMonth || !previousMonth) return '0%';
-    
-    const growth = ((lastMonth.revenue - previousMonth.revenue) / previousMonth.revenue) * 100;
-    return `${growth > 0 ? '+' : ''}${growth.toFixed(1)}%`;
-  };
 
   const getStatusBadge = () => {
     const statusConfig = {
@@ -147,83 +138,80 @@ export default function ModernDashboard({ business }: ModernDashboardProps) {
 
       {/* Metrics Grid - Mobile optimized */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-4 sm:mb-6">
-        <ModernMetricCard
-          title="Revenue Total"
-          value={formatCurrency(business.metrics.totalRevenue)}
-          change={calculateGrowth()}
-          changeType={parseFloat(calculateGrowth()) > 0 ? 'increase' : 'decrease'}
+        <LockedMetricCard
+          title="Revenue Première Année"
+          valueRange={lockedMetrics.revenueRange}
+          trend={lockedMetrics.growthTrend.value}
+          trendType={lockedMetrics.growthTrend.type}
+          hint="Sur 12 mois"
           icon={DollarSign}
-          iconColor="text-green-600"
-          subtitle="Depuis le lancement"
+          color="text-green-600"
         />
         
-        <ModernMetricCard
-          title="Dépenses Totales"
-          value={formatCurrency(business.metrics.totalExpenses)}
-          change="2.4%"
-          changeType="decrease"
+        <LockedMetricCard
+          title="Dépenses Première Année"
+          valueRange={lockedMetrics.revenueRange}
+          trend={lockedMetrics.expenseRatio}
+          trendType="increase"
+          hint="Optimisées"
           icon={TrendingUp}
-          iconColor="text-red-600"
-          subtitle="Optimisation continue"
+          color="text-red-600"
         />
         
-        <ModernMetricCard
-          title="Clients Totaux"
-          value={formatNumber(business.metrics.totalCustomers)}
-          change="7.8%"
-          changeType="increase"
+        <LockedMetricCard
+          title="Clients Première Année"
+          valueRange={lockedMetrics.customerRange}
+          trend={lockedMetrics.growthTrend.value}
+          trendType={lockedMetrics.growthTrend.type}
+          hint="Base croissante"
           icon={Users}
-          iconColor="text-blue-600"
-          subtitle={`CAC: ${formatCurrency(business.metrics.cac)}`}
+          color="text-blue-600"
         />
       </div>
 
       {/* Lean Metrics */}
       {business.status === 'active' && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
-          <ModernMetricCard
+          <LockedMetricCard
             title="MRR"
-            value={formatCurrency(business.metrics.mrr)}
-            change="15%"
-            changeType="increase"
+            valueRange={lockedMetrics.mrrRange}
+            trend="+22%"
+            trendType="increase"
             icon={Activity}
-            iconColor="text-indigo-600"
-            subtitle={`ARR: ${formatCurrency(business.metrics.arr)}`}
+            color="text-indigo-600"
           />
           
-          <ModernMetricCard
+          <LockedMetricCard
             title="LTV / CAC"
-            value={(business.metrics.ltv / business.metrics.cac).toFixed(1) + 'x'}
+            valueRange={lockedMetrics.ltvcacRange}
+            trend="+0.8x"
+            trendType="increase"
             icon={Target}
-            iconColor="text-orange-600"
-            subtitle={`LTV: ${formatCurrency(business.metrics.ltv)}`}
+            color="text-orange-600"
           />
           
-          <ModernMetricCard
+          <LockedMetricCard
             title="Churn Rate"
-            value={business.metrics.churnRate + '%'}
-            changeType={business.metrics.churnRate < 5 ? 'increase' : 'decrease'}
+            valueRange={lockedMetrics.churnRange}
+            trend="-0.5%"
+            trendType="decrease"
             icon={Zap}
-            iconColor="text-yellow-600"
-            subtitle="Mensuel"
+            color="text-yellow-600"
           />
           
-          <ModernMetricCard
+          <LockedMetricCard
             title="Runway"
-            value={business.metrics.runway + ' mois'}
+            valueRange={lockedMetrics.runwayRange}
+            hint="Trésorerie stable"
             icon={Clock}
-            iconColor="text-teal-600"
-            subtitle={`Burn: ${formatCurrency(business.metrics.burnRate)}/mois`}
+            color="text-teal-600"
           />
         </div>
       )}
 
       {/* Charts */}
       <div className="mb-6">
-        <div className="bg-white border border-slate-200 rounded-xl p-5">
-          <h3 className="text-sm font-semibold text-slate-900 mb-4 uppercase tracking-wider">Évolution Revenue</h3>
-          <RevenueChart data={business.monthlyData} />
-        </div>
+        <LockedRevenueChart data={monthlyData} />
       </div>
 
       {/* Milestones & Lessons - Stack on mobile */}

@@ -6,7 +6,6 @@ import Portfolio from './pages/Portfolio';
 import HeroTerminal from './pages/HeroTerminal';
 import ModernMomentsForts from './pages/ModernMomentsForts';
 import ModernArchives from './pages/ModernArchives';
-import LockedDashboardDemo from './pages/LockedDashboardDemo';
 import { mockBusinesses } from './data/mockData';
 
 function AppContent() {
@@ -41,7 +40,6 @@ function AppContent() {
         <Route path="/archives" element={<ModernArchives business={currentBusiness} />} />
         <Route path="/moments-forts" element={<ModernMomentsForts />} />
         <Route path="/journal" element={<ModernMomentsForts />} />
-        <Route path="/locked-demo" element={<LockedDashboardDemo />} />
       </Routes>
       </DashboardLayout>
   );
