@@ -1,10 +1,11 @@
 import { Business } from '../types/business';
+import { projectsRealData } from '../data/projectsRealData';
 
 // Configuration des fourchettes selon le statut et l'industrie
 interface ProjectProfile {
   revenueRange: [number, number];
   customerRange: [number, number];
-  growthPattern: 'explosive' | 'steady' | 'declining' | 'pivoted';
+  growthPattern: 'explosive' | 'steady' | 'declining' | 'pivoted' | 'not-launched';
   timeActive: number; // en mois
   industryMultiplier: number;
 }
@@ -24,12 +25,49 @@ const industryProfiles: Record<string, { multiplier: number; typical: string }> 
   'Services B2B': { multiplier: 1.7, typical: 'steady' }
 };
 
-// Génération des fourchettes basées sur les réponses collectées
+// Génération des fourchettes basées sur les vraies données collectées
 export function generateProjectProfile(business: Business): ProjectProfile {
+  // Chercher les vraies données pour ce projet
+  const realData = projectsRealData.find(p => p.name === business.name);
+  
+  if (realData) {
+    // Utiliser les vraies données collectées
+    const monthsActive = calculateMonthsActive(realData.realStartDate, business.endDate);
+    
+    // Mapper l'évolution réelle au pattern de croissance
+    let growthPattern: ProjectProfile['growthPattern'];
+    switch (realData.evolution) {
+      case 'not-launched':
+        growthPattern = 'not-launched';
+        break;
+      case 'fast-growth':
+        growthPattern = 'explosive';
+        break;
+      case 'slow-growth':
+      case 'ongoing':
+        growthPattern = 'steady';
+        break;
+      case 'stagnation':
+        growthPattern = 'pivoted';
+        break;
+      case 'decline':
+      default:
+        growthPattern = 'declining';
+    }
+    
+    return {
+      revenueRange: realData.revenueRange,
+      customerRange: realData.customerRange,
+      growthPattern,
+      timeActive: monthsActive,
+      industryMultiplier: industryProfiles[business.industry]?.multiplier || 1.0
+    };
+  }
+  
+  // Fallback sur l'ancienne méthode si pas de données réelles
   const industry = industryProfiles[business.industry] || { multiplier: 1.0, typical: 'steady' };
   const monthsActive = calculateMonthsActive(business.startDate, business.endDate);
   
-  // Pattern de croissance basé sur le statut
   let growthPattern: ProjectProfile['growthPattern'] = 'steady';
   if (business.status === 'active') {
     growthPattern = industry.typical as ProjectProfile['growthPattern'];
@@ -41,7 +79,6 @@ export function generateProjectProfile(business: Business): ProjectProfile {
     growthPattern = 'explosive';
   }
   
-  // Calcul des fourchettes basé sur les patterns observés
   const baseRevenue = getBaseRevenue(business, monthsActive);
   const revenueRange = calculateRevenueRange(baseRevenue, industry.multiplier, growthPattern);
   const customerRange = calculateCustomerRange(revenueRange, business.industry);
@@ -156,27 +193,38 @@ export function formatValueRange(min: number, max: number, type: 'currency' | 'n
 export function generateLockedMetrics(business: Business) {
   const profile = generateProjectProfile(business);
   
+  // Pour les projets non lancés, afficher des projections
+  if (profile.growthPattern === 'not-launched') {
+    return {
+      revenueRange: 'Projection: €5K-50K',
+      customerRange: 'Cible: 10-100',
+      mrrRange: 'Objectif: €1K-5K',
+      ltvcacRange: 'Target: 3x-5x',
+      churnRange: 'Prévu: 3%-7%',
+      runwayRange: 'Planifié: 12-24 mois',
+      growthTrend: { value: 'En préparation', type: 'neutral' as const },
+      expenseRatio: 'Budget: €5K-20K'
+    };
+  }
+  
   // MRR basé sur le revenue range
   const mrrMin = Math.round(profile.revenueRange[0] / 12);
   const mrrMax = Math.round(profile.revenueRange[1] / 12);
   
   // LTV/CAC ratio selon le pattern
   let ltvcacRange: [number, number];
-  switch (profile.growthPattern) {
-    case 'explosive':
-      ltvcacRange = [3.5, 6.0];
-      break;
-    case 'steady':
-      ltvcacRange = [2.0, 4.0];
-      break;
-    case 'declining':
-      ltvcacRange = [0.8, 1.5];
-      break;
-    case 'pivoted':
-      ltvcacRange = [1.0, 3.0];
-      break;
-    default:
-      ltvcacRange = [2.0, 3.5];
+  if (profile.growthPattern === 'explosive') {
+    ltvcacRange = [3.5, 6.0];
+  } else if (profile.growthPattern === 'steady') {
+    ltvcacRange = [2.0, 4.0];
+  } else if (profile.growthPattern === 'declining') {
+    ltvcacRange = [0.8, 1.5];
+  } else if (profile.growthPattern === 'pivoted') {
+    ltvcacRange = [1.0, 3.0];
+  } else if (profile.growthPattern === 'not-launched') {
+    ltvcacRange = [0, 0];
+  } else {
+    ltvcacRange = [2.0, 3.5];
   }
   
   // Churn rate selon le statut
@@ -239,6 +287,8 @@ function getGrowthTrend(pattern: string): { value: string; type: 'increase' | 'd
       return { value: '-15%', type: 'decrease' };
     case 'pivoted':
       return { value: '+5%', type: 'neutral' };
+    case 'not-launched':
+      return { value: 'En préparation', type: 'neutral' };
     default:
       return { value: '+15%', type: 'increase' };
   }
@@ -262,9 +312,29 @@ function getExpenseRatio(status: string): string {
 // Génération de données mensuelles masquées
 export function generateMaskedMonthlyData(business: Business, months: number = 12) {
   const profile = generateProjectProfile(business);
+  const realData = projectsRealData.find(p => p.name === business.name);
   const data = [];
   
-  const startDate = new Date(business.startDate);
+  // Utiliser la vraie date de début si disponible
+  const startDate = new Date(realData?.realStartDate || business.startDate);
+  
+  // Pour les projets non lancés, générer des projections
+  if (profile.growthPattern === 'not-launched') {
+    for (let i = 0; i < months; i++) {
+      const monthDate = new Date(startDate);
+      monthDate.setMonth(startDate.getMonth() + i);
+      
+      data.push({
+        month: monthDate.toLocaleDateString('fr-FR', { month: 'short' }),
+        revenue: 0,
+        expenses: Math.round(1000 + i * 100), // Frais de développement
+        customers: 0,
+        orders: 0
+      });
+    }
+    return data;
+  }
+  
   const baseRevenue = profile.revenueRange[0] / months;
   const baseExpenses = baseRevenue * 0.6; // 40% de marge moyenne
   
@@ -274,20 +344,17 @@ export function generateMaskedMonthlyData(business: Business, months: number = 1
     
     // Variation selon le pattern
     let growthFactor = 1;
-    switch (profile.growthPattern) {
-      case 'explosive':
-        growthFactor = Math.pow(1.15, i); // 15% par mois
-        break;
-      case 'steady':
-        growthFactor = Math.pow(1.05, i); // 5% par mois
-        break;
-      case 'declining':
-        growthFactor = Math.pow(0.95, i); // -5% par mois
-        break;
-      case 'pivoted':
-        // Baisse puis remontée
-        growthFactor = i < 6 ? Math.pow(0.9, i) : Math.pow(1.1, i - 6);
-        break;
+    if (profile.growthPattern === 'explosive') {
+      growthFactor = Math.pow(1.15, i); // 15% par mois
+    } else if (profile.growthPattern === 'steady') {
+      growthFactor = Math.pow(1.05, i); // 5% par mois
+    } else if (profile.growthPattern === 'declining') {
+      growthFactor = Math.pow(0.95, i); // -5% par mois
+    } else if (profile.growthPattern === 'pivoted') {
+      // Baisse puis remontée
+      growthFactor = i < 6 ? Math.pow(0.9, i) : Math.pow(1.1, i - 6);
+    } else if (profile.growthPattern === 'not-launched') {
+      growthFactor = 0;
     }
     
     // Ajout de variation aléatoire réaliste
